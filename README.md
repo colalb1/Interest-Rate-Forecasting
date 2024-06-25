@@ -1,4 +1,4 @@
-# Unnamed-Quant-Project
+# Interest Rate Forecasting
 
 ## Ideas
 - Interest rate forecasting based on historical bond yield data (Vasicek, Hull-White, CIR, state-of-the-art models)
