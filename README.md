@@ -1,6 +1,6 @@
 # Interest Rate Forecasting
 
-Implementation of common and uncommon interest rate models.
+Implementation of common and state-of-the-art interest rate models. I wanted to refresh and expand my knowledge of interest rates and challenge myself with some (relatively) complex implementations.
 
 Using [this](https://www.amazon.com/Interest-Rate-Models-Practice-Inflation/dp/3540221492) as reference.
 
