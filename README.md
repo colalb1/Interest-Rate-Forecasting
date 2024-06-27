@@ -11,6 +11,7 @@ Implementation of common and uncommon interest rate models.
 - Implement classical models
 - Test classical models
 - Implement current models
+  USE INTEL VTUNE TO FIND OPTIMAL LOOP BLOCKING SIZE
 - Read about current models
 - Improve mathematical formulation of current models
 - Implement improvement of current model
