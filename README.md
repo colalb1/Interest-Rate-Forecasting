@@ -2,7 +2,7 @@
 
 Implementation of common and uncommon interest rate models.
 
-Using (this)[https://www.amazon.com/Interest-Rate-Models-Practice-Inflation/dp/3540221492] as reference.
+Using [this](https://www.amazon.com/Interest-Rate-Models-Practice-Inflation/dp/3540221492) as reference.
 
 ## Ideas
 - Interest rate forecasting based on historical bond yield data (Vasicek, Hull-White, CIR, state-of-the-art models)
