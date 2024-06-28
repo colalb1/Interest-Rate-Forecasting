@@ -19,18 +19,29 @@ mt19937 gen(rd());
 normal_distribution<double> dist(0, 1);
 auto distribution = bind(dist, gen);
 
-// Model variables
-double r_0 = 0, theta, kappa, sigma;    // intial rate, mean level (the price the process reverts to), reversion rate, and volatility
-double d_t = 0.01;                      // time increment
-
 // Loop blocking size
 // Hopefully this will speed up performance. This needs to be checked with Intel VTune once the program is more developed and diagnostics are more insightful.
 const int BLOCK_SIZE = 64;
 
+// Initializing global variables that the models will inherit
+class GeneralModel {
+    protected:
+        // Model variables
+        double r_0, theta, kappa, sigma, d_t;    // intial rate, mean level (the price the process reverts to), reversion rate, volatility, and time increment
+
+        // Class constructor
+        GeneralModel(double r_0_con, double theta_con, double kappa_con, double sigma_con, double d_t_con) {
+            r_0 = r_0_con;
+            theta = theta_con;
+            kappa = kappa_con;
+            sigma = sigma_con;
+            d_t = d_t_con;
+        }
+};
 
 
 // Interest rate models
-class Vasicek {
+class Vasicek: private GeneralModel {
     private: 
         double B(const double& t, const double& T) {
             return (1 - exp(-kappa * (T - t))) / kappa;
@@ -42,6 +53,9 @@ class Vasicek {
         }
 
     public:
+        // Constructor, uses same construction as parent.
+        Vasicek(double r_0_con, double theta_con, double kappa_con, double sigma_con, double d_t_con):GeneralModel(r_0_con, theta_con, kappa_con, sigma_con, d_t_con) {};
+
         double exact_value(const double& t, const double& T) {
             return exp(A(t, T) - r_0 * B(t, T));
         }
@@ -69,7 +83,7 @@ class Vasicek {
         }
 };
 
-class CIR {
+class CIR: private GeneralModel {
     private:
         double B(const double& t, const double& T) {
             const double tau = T - t;
@@ -86,6 +100,9 @@ class CIR {
         }
     
     public:
+        // Constructor
+        CIR(double r_0_con, double theta_con, double kappa_con, double sigma_con, double d_t_con):GeneralModel(r_0_con, theta_con, kappa_con, sigma_con, d_t_con) {};
+
         double exact_value(const double& t, const double& T) {
             return A(t, T) * exp(-r_0 * B(t, T));
         }
@@ -114,8 +131,8 @@ class CIR {
 };
 
 
-////////////////////////////////////////////////////////////// FINISH THIS LATER //////////////////////////////////////////////////////////////
-class ExponentialVasicek {
+////////////////////////////////////////////////////////////// FINISH BELOW LATER //////////////////////////////////////////////////////////////
+class ExponentialVasicek: private GeneralModel {
     private:
         double B(const double& t, const double& T) {
             return 0;
@@ -126,11 +143,13 @@ class ExponentialVasicek {
         }
 
     public:
+        // Constructor
+        ExponentialVasicek(double r_0_con, double theta_con, double kappa_con, double sigma_con, double d_t_con):GeneralModel(r_0_con, theta_con, kappa_con, sigma_con, d_t_con) {};
 
 };
 
 
-class ExtendedVasicek {
+class ExtendedVasicek: private GeneralModel {
     private:
         // setting mean reversion as linear function beginning at initial rate; can be changed later
         double theta_reversion(const double& t) {
@@ -163,6 +182,9 @@ class ExtendedVasicek {
         
 
     public:
+        // Constructor
+        ExtendedVasicek(double r_0_con, double theta_con, double kappa_con, double sigma_con, double d_t_con):GeneralModel(r_0_con, theta_con, kappa_con, sigma_con, d_t_con) {};
+
         double exact_value(const double& t, const double& T) {
             return A(t, T, 10000000) * exp(-r_0 * B(t, T));
         }
@@ -176,25 +198,14 @@ class ExtendedVasicek {
         }
 };
 
+////////////////////////////////////////////////////////////// FINISH ABOVE LATER //////////////////////////////////////////////////////////////
 
 int main() {
-    double r_0 = 0.05, theta = 0.02, kappa = 3.0, sigma = 0.15;
-    std::cin >> theta >> kappa >> sigma;
+    Vasicek testing_class(0.05, 0.02, 3, 0.15, 0.001);
+    cout << "Vasicek exact rate: " << testing_class.exact_value(0, 1) << endl;
+    cout << "Vasicek expected rate: " << testing_class.expected_rate(0, 1) << endl;
+    cout << "Vasicek expected variance: " << testing_class.expected_variance(0, 1) << endl;
 
-    // const int num_time_steps = 100000000;
-    // const int num_sims = 1000000;
-
-    // const double T = 10;
-    // const double d_t = T / num_time_steps;
-    // vector<double> rates(num_time_steps, 0);
-    // rates[0] = r_0;
-
-    // for (int i = 1; i < num_time_steps + 1; i += BLOCK_SIZE) {
-    //     for (int j = i; j < min(i + BLOCK_SIZE, num_time_steps + 1); j++) {
-    //         rates[j] = rates[j - 1] + kappa * (theta - rates[j - 1]) * d_t + sigma * sqrt(d_t) * distribution(num_sims);
-    //     }
-    // }
-    // cout << "finished" << endl;
-
-    // return 0;
+    vector<double> temp = testing_class.simulated_value(100000, 1000000, 1);
+    cout << "Vasicek simulated rate: " << temp[0] << endl; 
 }
