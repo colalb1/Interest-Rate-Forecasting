@@ -1,5 +1,5 @@
-#ifndef MY_HEADER_H
-#define MY_HEADER_H
+#ifndef Vasicek_CIR_HEADER
+#define Vasicek_CIR_HEADER
 
 // Importing packages
 #include <iostream>
