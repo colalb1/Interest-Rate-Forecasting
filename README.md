@@ -10,14 +10,15 @@ Using [this](https://www.amazon.com/Interest-Rate-Models-Practice-Inflation/dp/3
 ## TODO:
 ~~- Read about interest rate modeling: why, what, and how~~
 ~~- Read about classical models~~
-- Implement classical models
-- Test classical models
-- Implement current models
-  USE INTEL VTUNE TO FIND OPTIMAL LOOP BLOCKING SIZE
+~~- Implement classical models~~
+~~- Test classical models~~
 - Read about current models
+- Implement current models
 - Improve mathematical formulation of current models
 - Implement improvement of current model
 - Test improved current model
 - Write technical README
 - Write intro and conclusion README
 - Share
+
+USE INTEL VTUNE TO FIND OPTIMAL LOOP BLOCKING SIZE
