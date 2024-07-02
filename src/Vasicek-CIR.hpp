@@ -39,6 +39,11 @@ class GeneralModel {
         }
 };
 
+// Distribution for models using non-Brownian motion models
+class AlphaStableDistribution {
+
+};
+
 
 // Interest rate models
 class Vasicek: private GeneralModel {
@@ -128,6 +133,18 @@ class CIR: private GeneralModel {
 
             return rates;
         }
+};
+
+// Model taken from this article: https://arxiv.org/abs/2402.07503
+class StableCIR: private GeneralModel {
+
+};
+
+// The alpha-CIR model is better than CIR for real-world modeling since it allows large fluctuations since it has a tail-fatness parameter
+// and reduces overestimation when interests rates are low, a common issue with the CIR model. The tail will be controlled by alpha_g in 
+// this model.
+class AlphaCIR: private GeneralModel {
+
 };
 
 #endif
