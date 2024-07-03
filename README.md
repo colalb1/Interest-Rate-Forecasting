@@ -12,7 +12,7 @@ Using [this](https://www.amazon.com/Interest-Rate-Models-Practice-Inflation/dp/3
 ~~- Read about classical models~~
 ~~- Implement classical models~~
 ~~- Test classical models~~
-- Read about current models
+~~- Read about current models~~
 - Implement current models ($\alpha$-CIR model, pg 8 of [this article](https://arxiv.org/abs/2402.07503))
 - Improve mathematical formulation of current models
 - Implement improvement of current model
