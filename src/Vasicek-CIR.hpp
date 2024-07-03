@@ -63,7 +63,7 @@ class AlphaStableDistribution {
 
     public:
         // alpha = shape (stability) parameter in (0, 2], beta = skewness param in [-1, 1], sigma = dispersion (positive), mu = location
-        double alpha_stable_pdf(const double& alpha, const double& beta, const double& sigma, const double& mu) {
+        double alpha_stable_pdf(double& alpha, const double& beta, const double& sigma, const double& mu) {
             Expects(0 < alpha && alpha <= 2 && -1 < beta && beta < 1 && sigma > 0);
 
             // Defining generator and distributions for path simulations
