@@ -20,7 +20,6 @@ std::normal_distribution<double> dist(0, 1);
 auto distribution = bind(dist, gen);
 
 // Loop blocking size
-// Hopefully this will speed up performance. This needs to be checked with Intel VTune once the program is more developed and diagnostics are more insightful.
 const int BLOCK_SIZE = 64;
 
 // Defining Expects
@@ -51,10 +50,14 @@ class GeneralModel {
 // Using Chamber-Mallows-Stuck method: https://www.sciencedirect.com/science/article/pii/0167715295001131
 class AlphaStableDistribution {
     private:
+        // Initialized variables should be changed before running program
         double alpha = 2;
         const double beta = 0;
         const double sigma = 1;
         const double mu = 0;
+
+        long int num_paths = 10000, path_length = 10000;
+        double r_0 = 0.1;
 
         double kappa(double& val) {
             if (val < 1) {
@@ -67,7 +70,19 @@ class AlphaStableDistribution {
         }
 
     public:
-        AlphaStableDistribution(double& alpha_par, const double& beta_par, const double& sigma_par, const double& mu_par) : alpha(alpha_par), beta(beta_par), sigma(sigma_par), mu(mu_par) {}
+        AlphaStableDistribution(double& alpha_par, 
+                                const double& beta_par, 
+                                const double& sigma_par, 
+                                const double& mu_par, 
+                                const long int& num_paths_par, 
+                                const long int& path_length_par, 
+                                const double& r_0_par) : alpha(alpha_par), 
+                                                         beta(beta_par), 
+                                                         sigma(sigma_par), 
+                                                         mu(mu_par),
+                                                         num_paths(num_paths_par),
+                                                         path_length(path_length_par),
+                                                         r_0(r_0_par) {}
 
         // alpha = shape (stability) parameter in (0, 2], beta = skewness param in [-1, 1], sigma = dispersion (positive), mu = location
         double alpha_stable_pdf(double& alpha, const double& beta, const double& sigma, const double& mu) {
@@ -105,6 +120,30 @@ class AlphaStableDistribution {
             }
 
             return solution;
+        }
+        
+        // Create the alpha-stable paths
+        std::vector<std::vector<double>> generate_paths(const double& T, const long int& num_paths, const long int& path_length) {
+            double d_t = T / path_length;
+
+            std::vector<std::vector<double>> paths(num_paths, std::vector<double>(path_length, 0));
+
+            for (int i = 0; i < num_paths; ++i) {
+                paths[i][0] = r_0;
+
+                for (int j = 1; j < path_length; j += BLOCK_SIZE) {
+                    for (int k = j; k < std::min(static_cast<long int> (j + BLOCK_SIZE), path_length); ++k) {
+                        double r_prev_t = paths[i][k - 1];
+                        double dZ_alpha = alpha_stable_pdf(alpha, beta, sigma, mu) * std::pow(d_t, 1 / alpha);
+
+                        // diffeq from 2.23 of "Affine term structure models driven by independent Levy process"
+                        double d_r = (alpha * r_prev_t + beta) * d_t + sigma * std::pow(r_prev_t, 1 / alpha) * dZ_alpha;
+                        paths[i][k] = r_prev_t + d_r;
+                    }
+                }
+            }
+
+            return paths;
         }
 };
 
