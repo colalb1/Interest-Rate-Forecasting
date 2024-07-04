@@ -51,6 +51,11 @@ class GeneralModel {
 // Using Chamber-Mallows-Stuck method: https://www.sciencedirect.com/science/article/pii/0167715295001131
 class AlphaStableDistribution {
     private:
+        double alpha = 2;
+        const double beta = 0;
+        const double sigma = 1;
+        const double mu = 0;
+
         double kappa(double& val) {
             if (val < 1) {
                 return val;
@@ -62,6 +67,8 @@ class AlphaStableDistribution {
         }
 
     public:
+        AlphaStableDistribution(double& alpha_par, const double& beta_par, const double& sigma_par, const double& mu_par) : alpha(alpha_par), beta(beta_par), sigma(sigma_par), mu(mu_par) {}
+
         // alpha = shape (stability) parameter in (0, 2], beta = skewness param in [-1, 1], sigma = dispersion (positive), mu = location
         double alpha_stable_pdf(double& alpha, const double& beta, const double& sigma, const double& mu) {
             Expects(0 < alpha && alpha <= 2 && -1 < beta && beta < 1 && sigma > 0);
