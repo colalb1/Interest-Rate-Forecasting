@@ -33,66 +33,44 @@ void Expects(bool condition, const char* message = "Precondition failed") {
 class GeneralModel {
     protected:
         // Model variables
-        double r_0, theta, kappa, sigma, d_t;    // intial rate, mean level (the price the process reverts to), reversion rate, volatility, and time increment
+        double r_0, theta, kappa, sigma;    // intial rate, mean level (the price the process reverts to), reversion rate, volatility, and time increment
 
         // Class constructor
-        GeneralModel(double r_0_con, double theta_con, double kappa_con, double sigma_con, double d_t_con) {
+        GeneralModel(double r_0_con, double theta_con, double kappa_con, double sigma_con) {
             r_0 = r_0_con;
             theta = theta_con;
             kappa = kappa_con;
             sigma = sigma_con;
-            d_t = d_t_con;
         }
 };
 
-
-// Distribution for models using non-Brownian motion models
-// Using Chamber-Mallows-Stuck method: https://www.sciencedirect.com/science/article/pii/0167715295001131
-class AlphaStableDistribution {
+// Model taken from this article: https://arxiv.org/abs/2402.07503
+class StableCIR: private GeneralModel {
     private:
-        // Initialized variables should be changed before running program
-        double alpha = 2;
-        const double beta = 0;
-        const double sigma = 1;
-        const double mu = 0;
+        // Shape and skew
+        double alpha = 2, beta = 0;
 
-        long int num_paths = 10000, path_length = 10000;
-        double r_0 = 0.1;
-
-        double kappa(double& val) {
+        // Helper function for alpha-stable distribution generator
+        double kappa_sign(double& val) {
             if (val < 1) {
                 return val;
             } else if (val > 1) {
                 return val - 2;
             }
-
             return 0;
         }
 
-    public:
-        AlphaStableDistribution(double& alpha_par, 
-                                const double& beta_par, 
-                                const double& sigma_par, 
-                                const double& mu_par, 
-                                const long int& num_paths_par, 
-                                const long int& path_length_par, 
-                                const double& r_0_par) : alpha(alpha_par), 
-                                                         beta(beta_par), 
-                                                         sigma(sigma_par), 
-                                                         mu(mu_par),
-                                                         num_paths(num_paths_par),
-                                                         path_length(path_length_par),
-                                                         r_0(r_0_par) {}
-
-        // alpha = shape (stability) parameter in (0, 2], beta = skewness param in [-1, 1], sigma = dispersion (positive), mu = location
-        double alpha_stable_pdf(double& alpha, const double& beta, const double& sigma, const double& mu) {
+        // Distribution for models using non-Brownian motion models
+        // Using Chamber-Mallows-Stuck method: https://www.sciencedirect.com/science/article/pii/0167715295001131
+        // alpha = shape (stability) parameter in (0, 2], beta = skewness param in [-1, 1], sigma = dispersion (positive), mu = location aka r_0
+        double alpha_stable_pdf(double& alpha, const double& beta, const double& mu, const double& sigma) {
             Expects(0 < alpha && alpha <= 2 && -1 < beta && beta < 1 && sigma > 0);
 
             // Defining generator and distributions for path simulations
             std::default_random_engine generator;
             std::uniform_real_distribution<double> unif_distr(-M_PI_2, M_2_PI);
             std::exponential_distribution<double> exp_distr(1.0);
-            const double gamma_0 = -M_PI_2 * beta * kappa(alpha) / alpha;
+            const double gamma_0 = -M_PI_2 * beta * kappa_sign(alpha) / alpha;
 
             const double rand_unif_value = unif_distr(generator);
             const double rand_exp_value = exp_distr(generator);
@@ -121,36 +99,35 @@ class AlphaStableDistribution {
 
             return solution;
         }
+
+    public:
+        StableCIR(const double& alpha_con, 
+                  const double& beta_con,
+                  const double& r_0_con,
+                  const double& theta_con,
+                  const double& kappa_con, 
+                  const double& sigma_con): alpha(alpha_con), 
+                                            beta(beta_con), 
+                                            GeneralModel(r_0_con, theta_con, kappa_con, sigma_con) {}
         
-        // Create the alpha-stable paths
-        std::vector<std::vector<double>> generate_paths(const double& T, const long int& num_paths, const long int& path_length) {
-            double d_t = T / path_length;
+        // Create the alpha-stable path
+        std::vector<double> simulated_value(const long int& num_time_steps, const double& T) {
+            double d_t = T / num_time_steps;
 
-            std::vector<std::vector<double>> paths(num_paths, std::vector<double>(path_length, 0));
+            std::vector<double> rates(num_time_steps, 0);
+            rates[0] = r_0;
 
-            for (int i = 0; i < num_paths; ++i) {
-                paths[i][0] = r_0;
+            for (int i = 1; i < num_time_steps; i += BLOCK_SIZE) {
+                for (int j = i; j < std::min(static_cast<long int> (i + BLOCK_SIZE), num_time_steps); ++j) {
+                    double dZ_alpha = alpha_stable_pdf(alpha, beta, r_0, sigma) * std::pow(d_t, 1 / alpha);
 
-                for (int j = 1; j < path_length; j += BLOCK_SIZE) {
-                    for (int k = j; k < std::min(static_cast<long int> (j + BLOCK_SIZE), path_length); ++k) {
-                        double r_prev_t = paths[i][k - 1];
-                        double dZ_alpha = alpha_stable_pdf(alpha, beta, sigma, mu) * std::pow(d_t, 1 / alpha);
-
-                        // diffeq from 2.23 of "Affine term structure models driven by independent Levy process"
-                        double d_r = (alpha * r_prev_t + beta) * d_t + sigma * std::pow(r_prev_t, 1 / alpha) * dZ_alpha;
-                        paths[i][k] = r_prev_t + d_r;
-                    }
+                    // diffeq from 2.23 of "Affine term structure models driven by independent Levy process"
+                    rates[j] = rates[j - 1] + kappa * (theta - rates[j - 1]) * d_t + sigma * std::pow(rates[j - 1], 1 / alpha) * dZ_alpha;
                 }
             }
-
-            return paths;
+            
+            return rates;
         }
-};
-
-
-// Model taken from this article: https://arxiv.org/abs/2402.07503
-class StableCIR: private GeneralModel {
-
 };
 
 // The alpha-CIR model is better than CIR for real-world modeling since it allows large fluctuations since it has a tail-fatness parameter

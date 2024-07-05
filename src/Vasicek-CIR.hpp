@@ -26,15 +26,14 @@ const int BLOCK_SIZE = 64;
 class GeneralModel {
     protected:
         // Model variables
-        double r_0, theta, kappa, sigma, d_t;    // intial rate, mean level (the price the process reverts to), reversion rate, volatility, and time increment
+        double r_0, theta, kappa, sigma;    // intial rate, mean level (the price the process reverts to), reversion rate, volatility, and time increment
 
         // Class constructor
-        GeneralModel(double r_0_con, double theta_con, double kappa_con, double sigma_con, double d_t_con) {
+        GeneralModel(double r_0_con, double theta_con, double kappa_con, double sigma_con) {
             r_0 = r_0_con;
             theta = theta_con;
             kappa = kappa_con;
             sigma = sigma_con;
-            d_t = d_t_con;
         }
 };
 
@@ -53,7 +52,7 @@ class Vasicek: private GeneralModel {
 
     public:
         // Constructor, uses same construction as parent.
-        Vasicek(double r_0_con, double theta_con, double kappa_con, double sigma_con, double d_t_con):GeneralModel(r_0_con, theta_con, kappa_con, sigma_con, d_t_con) {};
+        Vasicek(double r_0_con, double theta_con, double kappa_con, double sigma_con): GeneralModel(r_0_con, theta_con, kappa_con, sigma_con) {};
 
         double exact_value(const double& t, const double& T) {
             return exp(A(t, T) - r_0 * B(t, T));
@@ -74,8 +73,7 @@ class Vasicek: private GeneralModel {
 
             for (int i = 1; i < num_time_steps; i += BLOCK_SIZE) {
                 for (int j = i; j < std::min(i + BLOCK_SIZE, num_time_steps); ++j) {
-                    double d_W = dist(gen);
-                    rates[j] = rates[j - 1] + kappa * (theta - rates[j - 1]) * d_t + sigma * sqrt(d_t) * d_W;
+                    rates[j] = rates[j - 1] + kappa * (theta - rates[j - 1]) * d_t + sigma * sqrt(d_t) * dist(gen);
                 }
             }
 
@@ -101,7 +99,7 @@ class CIR: private GeneralModel {
     
     public:
         // Constructor
-        CIR(double r_0_con, double theta_con, double kappa_con, double sigma_con, double d_t_con):GeneralModel(r_0_con, theta_con, kappa_con, sigma_con, d_t_con) {};
+        CIR(double r_0_con, double theta_con, double kappa_con, double sigma_con): GeneralModel(r_0_con, theta_con, kappa_con, sigma_con) {};
 
         double exact_value(const double& t, const double& T) {
             return A(t, T) * exp(-r_0 * B(t, T));
