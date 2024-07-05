@@ -29,7 +29,7 @@ void Expects(bool condition, const char* message = "Precondition failed") {
     }
 }
 
-// Initializing global variables that the models will inherit
+// // Initializing global variables that the models will inherit
 class GeneralModel {
     protected:
         // Model variables

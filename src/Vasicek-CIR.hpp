@@ -16,8 +16,7 @@
 // Initializing standard normal distribution
 std::random_device rd;
 std::mt19937 gen(rd());
-std::normal_distribution<double> dist(0, 1);
-auto distribution = bind(dist, gen);
+std::normal_distribution<double> dist(0.0, 1.0);
 
 // Loop blocking size
 // Hopefully this will speed up performance. This needs to be checked with Intel VTune once the program is more developed and diagnostics are more insightful.
@@ -68,14 +67,15 @@ class Vasicek: private GeneralModel {
             return pow(sigma, 2) * (1 - exp(-2 * kappa * (T - t))) / (kappa * 2);
         }
 
-        std::vector<double> simulated_value(const int& num_sims, const int& num_time_steps, const double& T) {
+        std::vector<double> simulated_value(const int& num_time_steps, const double& T) {
             const double d_t = T / num_time_steps;
             std::vector<double> rates(num_time_steps, 0);
             rates[0] = r_0;
 
-            for (int i = 1; i < num_time_steps + 1; i += BLOCK_SIZE) {
-                for (int j = i; j < std::min(i + BLOCK_SIZE, num_time_steps + 1); ++j) {
-                    rates[j] = rates[j - 1] + kappa * (theta - rates[j - 1]) * d_t + sigma * sqrt(d_t) * distribution(num_sims);
+            for (int i = 1; i < num_time_steps; i += BLOCK_SIZE) {
+                for (int j = i; j < std::min(i + BLOCK_SIZE, num_time_steps); ++j) {
+                    double d_W = dist(gen);
+                    rates[j] = rates[j - 1] + kappa * (theta - rates[j - 1]) * d_t + sigma * sqrt(d_t) * d_W;
                 }
             }
 
@@ -115,14 +115,14 @@ class CIR: private GeneralModel {
             return r_0 * pow(sigma, 2) / kappa * (exp(-kappa * (T - t)) - exp(-2 * kappa * (T - t))) + theta * pow(sigma, 2) * pow(1 - exp(-kappa * (T - t)), 2) / (2 * kappa);
         }
 
-        std::vector<double> simulated_value(const int& num_sims, const int& num_time_steps, const double& T) {
+        std::vector<double> simulated_value(const int& num_time_steps, const double& T) {
             const double d_t = T / num_time_steps;
             std::vector<double> rates(num_time_steps, 0);
             rates[0] = r_0;
 
-            for (int i = 1; i < num_time_steps + 1; i += BLOCK_SIZE) {
-                for (int j = i; j < std::min(i + BLOCK_SIZE, num_time_steps + 1); ++j) {
-                    rates[j] = rates[j - 1] + kappa * (theta - rates[j - 1]) * d_t + sigma * sqrt(std::max<double>(rates[j - 1], 0.0) * d_t) * distribution(num_sims);
+            for (int i = 1; i < num_time_steps; i += BLOCK_SIZE) {
+                for (int j = i; j < std::min(i + BLOCK_SIZE, num_time_steps); ++j) {
+                    rates[j] = std::max(0.0, rates[j - 1] + kappa * (theta - rates[j - 1]) * d_t + sigma * sqrt(std::max<double>(rates[j - 1], 0.0) * d_t) * dist(gen));
                 }
             }
 
