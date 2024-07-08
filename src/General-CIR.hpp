@@ -17,7 +17,6 @@
 std::random_device rd;
 std::mt19937 gen(rd());
 std::normal_distribution<double> dist(0, 1);
-auto distribution = bind(dist, gen);
 
 // Loop blocking size
 const int BLOCK_SIZE = 64;
@@ -30,25 +29,29 @@ void Expects(bool condition, const char* message = "Precondition failed") {
 }
 
 // // Initializing global variables that the models will inherit
-class GeneralModel {
+class GeneralModelAlpha {
     protected:
         // Model variables
         double r_0, theta, kappa, sigma;    // intial rate, mean level (the price the process reverts to), reversion rate, volatility, and time increment
 
         // Class constructor
-        GeneralModel(double r_0_con, double theta_con, double kappa_con, double sigma_con) {
+        GeneralModelAlpha(double r_0_con, double theta_con, double kappa_con, double sigma_con) {
             r_0 = r_0_con;
             theta = theta_con;
             kappa = kappa_con;
             sigma = sigma_con;
         }
-};
 
-// Model taken from this article: https://arxiv.org/abs/2402.07503
-class StableCIR: private GeneralModel {
-    private:
-        // Shape and skew
-        double alpha = 2, beta = 0;
+        std::vector<double> alphas, etas;
+
+        // Overloaded constructor for AlphaCIR
+        GeneralModelAlpha(double r_0_con, double theta_con, double kappa_con, std::vector<double> alphas_con, std::vector<double> etas_con) {
+            r_0 = r_0_con;
+            theta = theta_con;
+            kappa = kappa_con;
+            alphas = alphas_con;
+            etas = etas_con;
+        }
 
         // Helper function for alpha-stable distribution generator
         double kappa_sign(double& val) {
@@ -62,8 +65,8 @@ class StableCIR: private GeneralModel {
 
         // Distribution for models using non-Brownian motion models
         // Using Chamber-Mallows-Stuck method: https://www.sciencedirect.com/science/article/pii/0167715295001131
-        // alpha = shape (stability) parameter in (0, 2], beta = skewness param in [-1, 1], sigma = dispersion (positive), mu = location aka r_0
-        double alpha_stable_pdf(double& alpha, const double& beta, const double& mu, const double& sigma) {
+        // alpha = shape (stability) parameter in (0, 2], beta = skewness param in [-1, 1], mu = location aka r_0, sigma = dispersion (positive)
+        double alpha_stable_pdf(double alpha, double beta, double mu, double sigma) {
             Expects(0 < alpha && alpha <= 2 && -1 < beta && beta < 1 && sigma > 0);
 
             // Defining generator and distributions for path simulations
@@ -72,8 +75,8 @@ class StableCIR: private GeneralModel {
             std::exponential_distribution<double> exp_distr(1.0);
             const double gamma_0 = -M_PI_2 * beta * kappa_sign(alpha) / alpha;
 
-            const double rand_unif_value = unif_distr(generator);
-            const double rand_exp_value = exp_distr(generator);
+            double rand_unif_value = unif_distr(generator);
+            double rand_exp_value = exp_distr(generator);
 
             double solution = 0;
 
@@ -99,6 +102,13 @@ class StableCIR: private GeneralModel {
 
             return solution;
         }
+};
+
+// Model taken from this article: https://arxiv.org/abs/2402.07503
+class StableCIR: private GeneralModelAlpha {
+    private:
+        // Shape and skew
+        double alpha = 2, beta = 0;
 
     public:
         StableCIR(double alpha_con, 
@@ -108,7 +118,7 @@ class StableCIR: private GeneralModel {
                   double kappa_con, 
                   double sigma_con): alpha(alpha_con), 
                                      beta(beta_con), 
-                                     GeneralModel(r_0_con, theta_con, kappa_con, sigma_con) {}
+                                     GeneralModelAlpha(r_0_con, theta_con, kappa_con, sigma_con) {}
         
         // Create the alpha-stable path
         std::vector<double> simulated_value(long int num_time_steps, double T) {
@@ -133,8 +143,61 @@ class StableCIR: private GeneralModel {
 // The alpha-CIR model is better than CIR for real-world modeling since it allows large fluctuations since it has a tail-fatness parameter
 // and reduces overestimation when interests rates are low, a common issue with the CIR model. The tail will be controlled by alpha_g in 
 // this model.
-class AlphaCIR: private GeneralModel {
 
+// Edit: I will be writing a generalization of the alpha-CIR model where the number of dimensions (independent stable processes) is "g" instead of 2,
+// like the original definition of the alpha-CIR model. I will probably use 2 in testing, but I don't want to come back to generalize later.
+class AlphaCIR: private GeneralModelAlpha {
+    private:
+        // first is an indicator for whether this is the first iteration
+        double d_calc(const double& alpha, const double& eta, bool first = false) {
+            if (first && alpha == 2) {
+                return 2 * eta;
+            }
+
+            // Checks if \alpha\in (1, 2) and this is not the first iteration
+            Expects(1 < alpha && alpha < 2 && !first);
+
+            return eta * alpha * (alpha - 1) / tgamma(2 - alpha);
+        }
+
+    public:
+        AlphaCIR(double r_0_con,
+                 double theta_con,
+                 double kappa_con,
+                 std::vector<double> alphas_con, // Input should be reverse sorted; I am relying on the user reading the documentation. 
+                 std::vector<double> etas_con): GeneralModelAlpha(r_0_con, 
+                                                                  theta_con, 
+                                                                  kappa_con, 
+                                                                  alphas_con, 
+                                                                  etas_con) {}
+        
+        // Create the alpha-stable path
+        std::vector<double> simulated_value(long int num_time_steps, double T) {
+            double d_t = T / num_time_steps;
+
+            std::vector<double> d_variance(etas.size(), 0);
+            d_variance[0] = d_calc(alphas[0], etas[0], true);
+
+            std::vector<double> rates(num_time_steps, 0);
+            rates[0] = r_0;
+
+            // No loop blocking for now until my small brain can make this work
+            for (int i = 1; i < num_time_steps; i++) {
+                double dZ_alpha_sum = 0;
+
+                for (int j = 0; j < d_variance.size(); j++) {
+                    // Initializing d_variance, was using seperate loop but this is more efficient
+                    if (i == 0) {
+                        d_variance[j] = d_calc(alphas[j], etas[j]);
+                    }
+                    dZ_alpha_sum += alpha_stable_pdf(alphas[j], etas[j], r_0, d_variance[j]) * std::pow(d_variance[j] * d_t * rates[i - 1], 1 / alphas[j]);
+                }
+
+                rates[i] = rates[i - 1] + kappa * (theta - rates[i - 1]) * d_t + dZ_alpha_sum;
+            }
+            
+            return rates;
+        }
 };
 
 
