@@ -101,17 +101,17 @@ class StableCIR: private GeneralModel {
         }
 
     public:
-        StableCIR(const double& alpha_con, 
-                  const double& beta_con,
-                  const double& r_0_con,
-                  const double& theta_con,
-                  const double& kappa_con, 
-                  const double& sigma_con): alpha(alpha_con), 
-                                            beta(beta_con), 
-                                            GeneralModel(r_0_con, theta_con, kappa_con, sigma_con) {}
+        StableCIR(double alpha_con, 
+                  double beta_con,
+                  double r_0_con,
+                  double theta_con,
+                  double kappa_con, 
+                  double sigma_con): alpha(alpha_con), 
+                                     beta(beta_con), 
+                                     GeneralModel(r_0_con, theta_con, kappa_con, sigma_con) {}
         
         // Create the alpha-stable path
-        std::vector<double> simulated_value(const long int& num_time_steps, const double& T) {
+        std::vector<double> simulated_value(long int num_time_steps, double T) {
             double d_t = T / num_time_steps;
 
             std::vector<double> rates(num_time_steps, 0);

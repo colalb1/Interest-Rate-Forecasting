@@ -52,7 +52,13 @@ class Vasicek: private GeneralModel {
 
     public:
         // Constructor, uses same construction as parent.
-        Vasicek(double r_0_con, double theta_con, double kappa_con, double sigma_con): GeneralModel(r_0_con, theta_con, kappa_con, sigma_con) {};
+        Vasicek(double r_0_con, 
+                double theta_con, 
+                double kappa_con, 
+                double sigma_con): GeneralModel(r_0_con, 
+                                                theta_con, 
+                                                kappa_con, 
+                                                sigma_con) {};
 
         double exact_value(const double& t, const double& T) {
             return exp(A(t, T) - r_0 * B(t, T));
@@ -99,7 +105,13 @@ class CIR: private GeneralModel {
     
     public:
         // Constructor
-        CIR(double r_0_con, double theta_con, double kappa_con, double sigma_con): GeneralModel(r_0_con, theta_con, kappa_con, sigma_con) {};
+        CIR(double r_0_con, 
+            double theta_con, 
+            double kappa_con, 
+            double sigma_con): GeneralModel(r_0_con, 
+                                            theta_con, 
+                                            kappa_con, 
+                                            sigma_con) {};
 
         double exact_value(const double& t, const double& T) {
             return A(t, T) * exp(-r_0 * B(t, T));
