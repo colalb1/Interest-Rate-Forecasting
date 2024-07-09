@@ -30,6 +30,7 @@ Using [this](https://www.amazon.com/Interest-Rate-Models-Practice-Inflation/dp/3
 
 ## TODO:
 
+- WRITE README FOR COMPLETED PARTS
 - Improve mathematical formulation of current models
 - Implement improvement of current model
 - Test improved current model
