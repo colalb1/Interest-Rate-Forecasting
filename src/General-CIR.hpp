@@ -28,7 +28,7 @@ void Expects(bool condition, const char* message = "Precondition failed") {
     }
 }
 
-// // Initializing global variables that the models will inherit
+// Initializing global variables that the models will inherit
 class GeneralModelAlpha {
     protected:
         // Model variables
@@ -67,7 +67,7 @@ class GeneralModelAlpha {
         // Using Chamber-Mallows-Stuck method: https://www.sciencedirect.com/science/article/pii/0167715295001131
         // alpha = shape (stability) parameter in (0, 2], beta = skewness param in [-1, 1], mu = location aka r_0, sigma = dispersion (positive)
         double alpha_stable_pdf(double alpha, double beta, double mu, double sigma) {
-            Expects(0 < alpha && alpha <= 2 && -1 < beta && beta < 1 && sigma > 0);
+            Expects(0 < alpha && alpha <= 2 && -1 < beta && beta < 1 && sigma > 0, "Alpha-stable pdf conditions violated");
 
             // Defining generator and distributions for path simulations
             std::default_random_engine generator;
@@ -149,14 +149,13 @@ class StableCIR: private GeneralModelAlpha {
 class AlphaCIR: private GeneralModelAlpha {
     private:
         // first is an indicator for whether this is the first iteration
-        double d_calc(const double& alpha, const double& eta, bool first = false) {
+        long double d_calc(const double& alpha, const double& eta, bool first = false) {
             if (first && alpha == 2) {
                 return 2 * eta;
             }
 
-            // Checks if \alpha\in (1, 2) and this is not the first iteration
-            Expects(1 < alpha && alpha < 2 && !first);
-
+            // Checks \alpha\in (1, 2)
+            Expects(1 < alpha && alpha < 2, "Variance calculation violated");
             return eta * alpha * (alpha - 1) / tgamma(2 - alpha);
         }
 
@@ -178,18 +177,18 @@ class AlphaCIR: private GeneralModelAlpha {
             std::vector<double> d_variance(etas.size(), 0);
             d_variance[0] = d_calc(alphas[0], etas[0], true);
 
+            for (int i = 1; i < d_variance.size(); ++i) {
+                d_variance[i] = d_calc(alphas[i], etas[i]);
+            }
+
             std::vector<double> rates(num_time_steps, 0);
             rates[0] = r_0;
 
             // No loop blocking for now until my small brain can make this work
-            for (int i = 1; i < num_time_steps; i++) {
+            for (int i = 1; i < num_time_steps; ++i) {
                 double dZ_alpha_sum = 0;
 
-                for (int j = 0; j < d_variance.size(); j++) {
-                    // Initializing d_variance, was using seperate loop but this is more efficient
-                    if (i == 0) {
-                        d_variance[j] = d_calc(alphas[j], etas[j]);
-                    }
+                for (int j = 0; j < d_variance.size(); ++j) {
                     dZ_alpha_sum += alpha_stable_pdf(alphas[j], etas[j], r_0, d_variance[j]) * std::pow(d_variance[j] * d_t * rates[i - 1], 1 / alphas[j]);
                 }
 

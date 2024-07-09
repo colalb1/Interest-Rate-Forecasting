@@ -79,7 +79,7 @@ class Vasicek: private GeneralModel {
 
             for (int i = 1; i < num_time_steps; i += BLOCK_SIZE) {
                 for (int j = i; j < std::min(i + BLOCK_SIZE, num_time_steps); ++j) {
-                    rates[j] = rates[j - 1] + kappa * (theta - rates[j - 1]) * d_t + sigma * sqrt(d_t) * dist(gen);
+                    rates[j] = rates[j - 1] + (theta - kappa * rates[j - 1]) * d_t + sigma * sqrt(d_t) * dist(gen);
                 }
             }
 
