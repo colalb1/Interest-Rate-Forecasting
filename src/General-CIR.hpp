@@ -184,15 +184,16 @@ class AlphaCIR: private GeneralModelAlpha {
             std::vector<double> rates(num_time_steps, 0);
             rates[0] = r_0;
 
-            // No loop blocking for now until my small brain can make this work
-            for (int i = 1; i < num_time_steps; ++i) {
-                double dZ_alpha_sum = 0;
+            for (int i = 1; i < num_time_steps; i += BLOCK_SIZE) {
+                for (int j = i; j < std::min(static_cast<long int> (i + BLOCK_SIZE), num_time_steps); ++j) {
+                    double dZ_alpha_sum = 0;
 
-                for (int j = 0; j < d_variance.size(); ++j) {
-                    dZ_alpha_sum += alpha_stable_pdf(alphas[j], etas[j], r_0, d_variance[j]) * std::pow(d_variance[j] * d_t * rates[i - 1], 1 / alphas[j]);
+                    for (int k = 0; k < d_variance.size(); ++k) {
+                        dZ_alpha_sum += alpha_stable_pdf(alphas[k], etas[k], r_0, d_variance[k]) * std::pow(d_variance[k] * d_t * rates[j - 1], 1 / alphas[k]);
+                    }
+
+                    rates[j] = rates[j - 1] + kappa * (theta - rates[j - 1]) * d_t + dZ_alpha_sum;
                 }
-
-                rates[i] = rates[i - 1] + kappa * (theta - rates[i - 1]) * d_t + dZ_alpha_sum;
             }
             
             return rates;
