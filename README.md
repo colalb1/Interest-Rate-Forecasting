@@ -1,6 +1,13 @@
 # Interest Rate Forecasting
 
-Implementation of common and state-of-the-art interest rate models. I wanted to refresh and expand my knowledge of interest rates and challenge myself with some (relatively) complex implementations. Also want to improve my C++ OOP, organization, and guideline-following skills.
+Implementation of common and state-of-the-art interest rate models in C++. This project aims to act as an implementation and mathematical reference for interest rate models that build upon the basic models (Vasicek, CIR, etc.) via more complex dynamics.
+
+## Precursor
+
+
+
+
+
 
 Using [this](https://www.amazon.com/Interest-Rate-Models-Practice-Inflation/dp/3540221492) as reference.
 
