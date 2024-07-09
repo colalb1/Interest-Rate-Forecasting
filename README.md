@@ -11,7 +11,7 @@ If you are unfamiliar with the classic interest rate models, I recommend reading
 ### Classic Models
 **Vasicek:**
 
-The Vasicek model states that the instantaneous interest rate must follow the following [stochastic differential equation](https://en.wikipedia.org/wiki/Stochastic_differential_equation):
+The Vasicek model states that the instantaneous interest rate is derived from the following [stochastic differential equation](https://en.wikipedia.org/wiki/Stochastic_differential_equation):
 
 $$dr(t) = \kappa(\theta - r(t))dt + \sigma dW(t)$$
 
