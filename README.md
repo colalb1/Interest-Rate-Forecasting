@@ -1,13 +1,21 @@
 # Interest Rate Forecasting
 
-Implementation of common and state-of-the-art interest rate models in C++. This project aims to act as an implementation and mathematical reference for interest rate models that build upon the basic models (Vasicek, CIR, etc.) via more complex dynamics.
+Implementation of common and state-of-the-art interest rate models in C++. This project aims to act as an implementation and mathematical reference for interest rate models that build upon the basics (Vasicek, CIR, etc.) via more complex dynamics.
 
 ## Files
 
 ## Models
 
+If you are unfamiliar with the classic interest rate models, I recommend reading [this](https://www.amazon.com/Interest-Rate-Models-Practice-Inflation/dp/3540221492) book before continuing. This text is used for reference to the classic models.
+
 ### Classic Models
 **Vasicek:**
+
+The Vasicek model states that the instantaneous interest rate must follow the following [stochastic differential equation](https://en.wikipedia.org/wiki/Stochastic_differential_equation):
+
+$$dr(t) = \kappa(\theta - r(t))dt + \sigma dW(t)$$
+
+where $r(0) = r_0$.
 
 **Cox-Ingress-Ross (CIR):**
 
