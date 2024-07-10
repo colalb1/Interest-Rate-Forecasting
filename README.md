@@ -57,7 +57,7 @@ All other variables in the CIR model are defined similarly to the Vasicek model.
 
 $$\mathbb{E}(r(t) | \mathcal{F}(s)) = r(s)\exp(-\kappa (t - s)) + \theta (1 - \exp(-\kappa (t - s)))$$
 
-$$Var(r(t) | \mathcal{F}(s)) = r(s)\frac{\sigma ^ 2}{\kappa}\exp(-\kappa (t - s)\left(1 - \exp(-\kappa (t - s)\right) + \theta\frac{\sigma ^ 2}{2\kappa}\left(1 - \exp(-\kappa (t - s))\right)^2$$
+$$Var(r(t) | \mathcal{F}(s)) = r(s)\frac{\sigma ^ 2}{\kappa}\exp(-\kappa (t - s))\left(1 - \exp(-\kappa (t - s)\right) + \theta\frac{\sigma ^ 2}{2\kappa}\left(1 - \exp(-\kappa (t - s))\right)^2$$
 
 
 
