@@ -6,7 +6,7 @@ Implementation of common and state-of-the-art interest rate models in C++. This 
 
 ## Models
 
-If you are unfamiliar with the classic interest rate models, I recommend reading [this](https://www.amazon.com/Interest-Rate-Models-Practice-Inflation/dp/3540221492) book before continuing. This text was used for mathematical reference of the classic models.
+If you are unfamiliar with the classic interest rate models, I recommend reading [this](https://www.amazon.com/Interest-Rate-Models-Practice-Inflation/dp/3540221492) book before continuing. This text was used for mathematical reference of the classic models. If you are familiar with them, skip to the **Modern Models** subsection.
 
 ### Classic Models
 **Vasicek:**
