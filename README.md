@@ -75,13 +75,14 @@ I will defer to Section **3.2.3** of the [reference book](https://www.amazon.com
 The CIR model suffers from similar issues to the Vasicek model apart from negative rates. Extreme movements influence real-life financial data to observe distributions with fatter tails than the normal distribution, implying models such as the CIR model underestimate risk. The **Stable CIR** model will address this issue by basing the movement term on a [Levy alpha-stable distribution](https://en.wikipedia.org/wiki/Stable_distribution) instead of the normal distribution.
 
 ### Modern Models
+
+The mathematics of the Stable CIR and $\alpha$-CIR models are derived from [this](https://arxiv.org/abs/2402.07503) paper.
+
 **Stable CIR:**
 
 **$\alpha$-CIR**
 
 
-
-Using [this](https://www.amazon.com/Interest-Rate-Models-Practice-Inflation/dp/3540221492) as reference.
 
 ## TODO:
 
