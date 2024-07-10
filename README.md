@@ -33,8 +33,11 @@ $$Var(r(t) | \mathcal{F}(s)) = \frac{\sigma ^ 2}{2\kappa}\left(1 - \exp(-2\kappa
 Given the simplicity of the model, one may derive the price of a pure-discount bond given current time $t$ and expiration date $T$:
 
 $$P(t, T) = \exp\left[A(t, T) - B(t, T)r(t)\right]$$
+
 where
+
 $$B(t, T) = \frac{1}{k}\left(1 - \exp(1 - \kappa (T - t))\right)$$
+
 $$A(t, T) = \left(\theta - \frac{\sigma ^ 2}{2\kappa ^ 2}\right)(B(t, T) - T + t) - \frac{\sigma ^ 2}{4k}B(t, T)^2$$
 
 A few main issues of the Vasicek model are that it allows for negative interest rates due to the unconstrained movement of the $\sigma dW(t)$ term, unrealistic constant volatility/reversion speed, and the assumption that the process is based on the normal distribution. The following model addresses the issues of negative interest rates.
