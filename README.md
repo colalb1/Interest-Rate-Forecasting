@@ -23,9 +23,9 @@ where $r(0) = r_0$. This is an Ornstein-Uhlenbeck process with constant coeffici
 * $W(t)$ is a standard Brownian motion
 * $r(t)$ is the short-term interest rate that one aims to solve for
 
-The $\sigma dW(t)$ term represents the random fluctuations about the walk, and the $\kappa(\theta - r(t))$ term represents the drift term that reverts the interest rate to the given mean ($\theta$). I will defer further mathematical explanation to Section **3.2.1** of [the reference book](https://www.amazon.com/Interest-Rate-Models-Practice-Inflation/dp/3540221492) for brevity.
+The $\sigma dW(t)$ term represents the random fluctuations about the walk, and the $\kappa(\theta - r(t))$ term represents the drift term that reverts the interest rate to the given mean ($\theta$).
 
-One may solve the differential equation conditional on [filtration](https://en.wikipedia.org/wiki/Filtration_(probability_theory)) $\mathcal{F}(s)$ where $s\leq t$ and obtain the following terms for the expectation and variance of the walk:
+One may solve the differential equation conditional on [filtration](https://en.wikipedia.org/wiki/Filtration_(probability_theory)) $\mathcal{F}(s)$ where $s\leq t$ and obtain the following analytic terms for the expectation and variance of the walk:
 
 $$\mathbb{E}(r(t) | \mathcal{F}(s)) = r(s)\exp(-\kappa (t - s)) + \theta (1 - \exp(-\kappa (t - s)))$$
 
@@ -41,17 +41,27 @@ $$B(t, T) = \frac{1}{k}\left(1 - \exp(1 - \kappa (T - t))\right)$$
 
 $$A(t, T) = \left(\theta - \frac{\sigma ^ 2}{2\kappa ^ 2}\right)(B(t, T) - T + t) - \frac{\sigma ^ 2}{4k}B(t, T)^2$$
 
+I will defer further mathematical explanation to Section **3.2.1** of [the reference book](https://www.amazon.com/Interest-Rate-Models-Practice-Inflation/dp/3540221492) for brevity.
+
 A few main issues of the Vasicek model are that it allows for negative interest rates due to the unconstrained movement of the $\sigma dW(t)$ term, unrealistic constant volatility/reversion speed, and the assumption that the process is based on the normal distribution. The following model addresses the negative interest rates.
 
 **Cox-Ingress-Ross (CIR):**
 
-The CIR model addresses the issue of negative interest rates in the Vasicek model by adding a $\sqrt{r(t)}$ term to the random fluctuation. Thus, the process is modeled by the following stochastic differential equation:
+The CIR model addresses the issue of negative interest rates in the Vasicek model by adding a $\sqrt{r(t)}$ term to the random fluctuation term. Thus, the process is modeled by the following stochastic differential equation:
 
 $$dr(t) = \kappa(\theta - r(t))dt + \sqrt{r(t)} \sigma dW(t)$$
 
 This prevents negative interest rates since the steps become infinitesimally small when $r(t)\to 0$ and must revert from $0$ for the process to continue. Essentially, the steps get smaller by a factor of $\sqrt{r(t)}$ when $r(t)\to 0$ so it is impossible to reach a negative rate.
 
-All other variables in the CIR model are defined similarly to the Vasicek model. I will defer to Section **3.2.3** of the [reference book](https://www.amazon.com/Interest-Rate-Models-Practice-Inflation/dp/3540221492) for further explanation.
+All other variables in the CIR model are defined similarly to the Vasicek model. Although slightly more complex, the CIR model is still simple enough to derive the expected rate, variance, and price of a pure-discount bond analytically:
+
+$$\mathbb{E}(r(t) | \mathcal{F}(s)) = r(s)\exp(-\kappa (t - s)) + \theta (1 - \exp(-\kappa (t - s)))$$
+
+$$Var(r(t) | \mathcal{F}(s)) = r(s)\frac{\sigma ^ 2}{\kappa}\exp(-\kappa (t - s)\left(1 - \exp(-\kappa (t - s)\right) + \theta\frac{\sigma ^ 2}{2\kappa}\left(1 - \exp(-\kappa (t - s))\right)^2$$
+
+
+
+I will defer to Section **3.2.3** of the [reference book](https://www.amazon.com/Interest-Rate-Models-Practice-Inflation/dp/3540221492) for further explanation.
 
 ### Modern Models
 **Stable CIR:**
