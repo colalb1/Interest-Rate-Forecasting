@@ -49,7 +49,7 @@ The CIR model addresses the issue of negative interest rates in the Vasicek mode
 
 $$dr(t) = \kappa(\theta - r(t))dt + \sqrt{r(t)} \sigma dW(t)$$
 
-This prevents negative interest rates in the solution because when $r(t)$ approaches $0$ from a positive value, the steps become infinitesimally small and must revert from $0$ for the process to continue. Essentially, the steps get smaller by a factor of $\sqrt{r(t)}$ when $r(t)\to 0$ so it is impossible to reach a negative rate.
+This prevents negative interest rates since the steps become infinitesimally small when $r(t)\to 0$ and must revert from $0$ for the process to continue. Essentially, the steps get smaller by a factor of $\sqrt{r(t)}$ when $r(t)\to 0$ so it is impossible to reach a negative rate.
 
 All other variables in the CIR model are defined similarly to the Vasicek model. I will defer to Section **3.2.3** of the [reference book](https://www.amazon.com/Interest-Rate-Models-Practice-Inflation/dp/3540221492) for further explanation.
 
