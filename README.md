@@ -59,9 +59,20 @@ $$\mathbb{E}(r(t) | \mathcal{F}(s)) = r(s)\exp(-\kappa (t - s)) + \theta (1 - \e
 
 $$Var(r(t) | \mathcal{F}(s)) = r(s)\frac{\sigma ^ 2}{\kappa}\exp(-\kappa (t - s))\left(1 - \exp(-\kappa (t - s)\right) + \theta\frac{\sigma ^ 2}{2\kappa}\left(1 - \exp(-\kappa (t - s))\right)^2$$
 
+$$P(t, T) = A(t, T)\exp(-B(t, T)r(t))$$
 
+where
+
+$$A(t, T) = \left[\frac{2h\exp\left(\frac{(k + h)(T - t)}{2}\right)}{2h + (k + h)(\exp((T - t)h) - 1)}\right]^{\frac{2\kappa\theta}{\sigma ^ 2}}$$
+
+$$B(t, T) = \frac{2(\exp((T - t)h) - 1)}{2h + (k + h)(\exp((T - t)h) - 1)}$$
+
+$$h = \sqrt{\kappa ^ 2 + 2\sigma ^ 2}$$
 
 I will defer to Section **3.2.3** of the [reference book](https://www.amazon.com/Interest-Rate-Models-Practice-Inflation/dp/3540221492) for further explanation.
+
+
+PROBLEMS WITH THE CIR MODEL AND HOW THEY ARE ADDRESSED BY FURTHER IMPLEMENTATIONS!!!!!!!!!!!!!!!!!!!
 
 ### Modern Models
 **Stable CIR:**
