@@ -28,6 +28,7 @@ The $\sigma dW(t)$ term represents the random fluctuations about the walk, and t
 One may solve the differential equation conditional on [filtration](https://en.wikipedia.org/wiki/Filtration_(probability_theory)) $\mathcal{F}(s)$ where $s\leq t$ and obtain the following terms for the expectation and variance of the walk:
 
 $$\mathbb{E}(r(t) | \mathcal{F}(s)) = r(s)\exp(-\kappa (t - s)) + \theta (1 - \exp(-\kappa (t - s)))$$
+
 $$Var(r(t) | \mathcal{F}(s)) = \frac{\sigma ^ 2}{2\kappa}\left(1 - \exp(-2\kappa (t - s)\right)$$
 
 Given the simplicity of the model, one may derive the price of a pure-discount bond given current time $t$ and expiration date $T$:
