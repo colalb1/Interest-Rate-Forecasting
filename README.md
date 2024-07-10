@@ -72,7 +72,7 @@ $$h = \sqrt{\kappa ^ 2 + 2\sigma ^ 2}$$
 I will defer to Section **3.2.3** of the [reference book](https://www.amazon.com/Interest-Rate-Models-Practice-Inflation/dp/3540221492) for further explanation.
 
 
-The CIR model suffers from similar issues to the Vasicek model apart from negative rates. Extreme movements influence real-life financial data to observe distributions with fatter tails than the normal distribution, implying models such as the CIR model underestimate risk. The **Stable CIR** model will address this issue by basing the movement term on a [Levy alpha-stable distribution](https://en.wikipedia.org/wiki/Stable_distribution).
+The CIR model suffers from similar issues to the Vasicek model apart from negative rates. Extreme movements influence real-life financial data to observe distributions with fatter tails than the normal distribution, implying models such as the CIR model underestimate risk. The **Stable CIR** model will address this issue by basing the movement term on a [Levy alpha-stable distribution](https://en.wikipedia.org/wiki/Stable_distribution) instead of the normal distribution.
 
 ### Modern Models
 **Stable CIR:**
