@@ -89,7 +89,7 @@ First, I must define the Levy alpha-stable distribution class. Four parameters d
 * Distributions with $\alpha < 2$ have undefined second and higher moments (variance and higher moments)
 * Distributions with $\alpha \leq 1$ have undefined first and higher moments (mean and higher moments)
 
-Given this information, it is ideal to limit the distributions to $\alpha\in(1, 2]$ so the drift term(s) is/are well-defined (the drift term needs a mean). There is no general analytic form of the probability distribution function, but its [characteristic function](https://en.wikipedia.org/wiki/Characteristic_function_(probability_theory)) is defined as follows (taken from the [alpha-stable distribution Wikipedia](https://en.wikipedia.org/wiki/Stable_distribution):
+Given this information, it is ideal to limit the distributions to $\alpha\in(1, 2]$ so the drift term(s) is/are well-defined (the drift term needs a mean). There is no general analytic form of the probability distribution function, but its [characteristic function](https://en.wikipedia.org/wiki/Characteristic_function_(probability_theory)) is defined as follows (taken from the [alpha-stable distribution Wikipedia](https://en.wikipedia.org/wiki/Stable_distribution)):
 
 $$\phi(t, \alpha, \beta, \sigma, \mu) = \exp\left(it\mu - |\sigma t|^{\alpha}(1 - i\beta sgn(t)\Phi)\right)$$
 
