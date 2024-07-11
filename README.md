@@ -126,7 +126,7 @@ $$S_{\alpha, \beta} = \left(1 + \beta ^ 2\tan^2\left(\frac{\pi\alpha}{2}\right)\
 
 given
 
-$$\being{cases}
+$$\begin{cases}
 V\sim Unif\left(-\frac{\pi}{2}, \frac{\pi}{2}\right)\\
 W\sim Exp(1)\end{cases}$$
 
