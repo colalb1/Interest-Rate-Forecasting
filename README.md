@@ -85,7 +85,7 @@ As mentioned in the **CIR** subsection, the Stable CIR model aims to enhance the
 First, I must define the Levy alpha-stable distribution class. Four parameters define said class of distributions: the stability parameter $\alpha\in(0, 2]$, skewness parameter $\beta\in[-1, 1]$, scale parameter $\sigma\in(0, \infty)$, and the location parameter $\mu\in(-\infty, \infty)$. Put simply, $\mu$ is the mean/center of the distribution, $\sigma$ is the statistical dispersion factor (variance is a common example of this), $\beta$ measures asymmetry ($\beta = 0$ implies symmetry while $\beta = -1, 1$ imply left and right skewness, respectively), and $\alpha$ measures tail heaviness (lower $\alpha\implies$ heavier tails). $\alpha$ is the main parameter of interest. I will now provide context/facts about the $\alpha$-stable distribution that are context-relevant.
 
 * Distributions with $\alpha = 2$ are normal
-* Distributions with $\alpha = 2$ are [Cauchy](https://en.wikipedia.org/wiki/Cauchy_distribution)
+* Distributions with $\alpha = 1$ are [Cauchy](https://en.wikipedia.org/wiki/Cauchy_distribution)
 * Distributions with $\alpha < 2$ have undefined second and higher moments (variance and higher moments)
 * Distributions with $\alpha \leq 1$ have undefined first and higher moments (mean and higher moments)
 
