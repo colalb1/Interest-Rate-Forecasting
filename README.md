@@ -112,8 +112,21 @@ $$Y = \begin{cases}
 given 
 
 $$X = \begin{cases}
-S_{\alpha, \beta} \left(\frac{\sin(\alpha(V + B_{\alpha, \beta}))}{(\cos(V))^{1 / \alpha}}\right) \left(\frac{\cos(V - \alpha(V + B_{\alpha, \beta}))}{W}\right)^{(1 - \alpha) / \alpha}
+S_{\alpha, \beta} \left(\frac{\sin(\alpha(V + B_{\alpha, \beta}))}{(\cos(V))^{1 / \alpha}}\right) \left(\frac{\cos(V - \alpha(V + B_{\alpha, \beta}))}{W}\right)^{(1 - \alpha) / \alpha}, \text{,  }\alpha\neq 1\\
+\frac{2}{\pi}\left[\left(\frac{\pi}{2} + \beta V\right)\tan(V) - \beta\log\left(\frac{W\cos(V)}{\pi / 2 + \beta V}\right)\right]
 \end{cases}$$
+
+where 
+
+$$B_{\alpha, \beta} = $$
+
+and 
+
+$$S_{\alpha, \beta} = $$
+
+given
+
+$$V~Unif AND W~Exp$$
 
 **$\alpha$-CIR**
 
