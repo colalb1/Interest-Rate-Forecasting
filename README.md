@@ -157,4 +157,6 @@ This is essentially the same as the CIR model except the random walk is based on
 USE INTEL VTUNE TO FIND OPTIMAL LOOP-BLOCKING SIZE
 
 ## Side Note
-The descriptions came out much longer than I intended, but I figured I would make it detailed since my only other life responsibility while completing the bulk of this project was playing Elden Ring. At the time of this writing, I have a level 180+ Dex build using the [Backhand Blade](https://eldenring.wiki.fextralife.com/Backhand+Blade). I am tearing through the DLC as we speak (I write).
+The descriptions came out much longer than I intended, but I figured I would make it detailed since my only other life responsibility while completing the bulk of this project was playing Elden Ring. At the time of this writing, I have a level 180+ Dex build using the [Backhand Blade](https://eldenring.wiki.fextralife.com/Backhand+Blade). I am tearing through the DLC as we speak (I write). 
+
+If you are interested in more of the project details or my Elden Ring build, please contact me via LinkedIn.
