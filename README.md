@@ -76,9 +76,13 @@ The CIR model suffers from similar issues to the Vasicek model apart from negati
 
 ### Modern Models
 
-The mathematics of the Stable CIR and $\alpha$-CIR models are derived from [this](https://arxiv.org/abs/2402.07503) paper.
-
 **Stable CIR:**
+
+The mathematics of the Stable CIR and $\alpha$-CIR models are derived mainly from [this](https://arxiv.org/abs/2402.07503) paper. 
+
+As mentioned in the **CIR** subsection, the Stable CIR model aims to enhance the classic CIR model by basing the motion on fatter-tailed distributions as real data tends to show larger aberrations than that of idealized models using Brownian motion. [This paper](https://arxiv.org/abs/1301.3243) gives more mathematical background to WHY we want a fatter-tailed distribution; I encourage you to read this for more background, but I will be omitting the explanation and will move on to the HOW of the problem.
+
+First, I must define the Levy alpha-stable distribution.
 
 **$\alpha$-CIR**
 
