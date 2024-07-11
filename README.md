@@ -118,11 +118,11 @@ S_{\alpha, \beta} \left(\frac{\sin(\alpha(V + B_{\alpha, \beta}))}{(\cos(V))^{1 
 
 where 
 
-$$B_{\alpha, \beta} = $$
+$$B_{\alpha, \beta} = \frac{\arctan(\beta\tan(\frac{\pi\alpha}{2}))}{\alpha}$$
 
 and 
 
-$$S_{\alpha, \beta} = $$
+$$S_{\alpha, \beta} = \left(1 + \beta ^ 2\tan^2\left(\frac{\pi\alpha}{2}\right)\right)^{1 / (2\alpha)}$$
 
 given
 
