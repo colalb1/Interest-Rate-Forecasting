@@ -82,7 +82,23 @@ The mathematics of the Stable CIR and $\alpha$-CIR models are derived mainly fro
 
 As mentioned in the **CIR** subsection, the Stable CIR model aims to enhance the classic CIR model by basing the motion on fatter-tailed distributions as real data tends to show larger aberrations than that of idealized models using Brownian motion. [This paper](https://arxiv.org/abs/1301.3243) gives more mathematical background to WHY we want a fatter-tailed distribution; I encourage you to read this for more background, but I will be omitting the explanation and will move on to the HOW of the problem.
 
-First, I must define the Levy alpha-stable distribution class. Four parameters define said class of distributions: the stability parameter $\alpha\in(0, 2]$, skewness parameter $\beta\in[-1, 1]$, scale parameter $\sigma\in(0, \inf)$, and the location parameter $\mu\in(-\inf, \inf)$. Put simply, $\mu$ is the mean/center of the distribution, $\sigma$ is the statistical dispersion factor (variance is a common example of this), $\beta$ measures asymmetry ($\beta = 0$ implies symmetry while $\beta = -1, 1$ imply left and right skewness, respectively), and $\alpha$ measures tail heaviness.
+First, I must define the Levy alpha-stable distribution class. Four parameters define said class of distributions: the stability parameter $\alpha\in(0, 2]$, skewness parameter $\beta\in[-1, 1]$, scale parameter $\sigma\in(0, \inf)$, and the location parameter $\mu\in(-\infty, \infty)$. Put simply, $\mu$ is the mean/center of the distribution, $\sigma$ is the statistical dispersion factor (variance is a common example of this), $\beta$ measures asymmetry ($\beta = 0$ implies symmetry while $\beta = -1, 1$ imply left and right skewness, respectively), and $\alpha$ measures tail heaviness (lower $\alpha\implies$ heavier tails). $\alpha$ is the main parameter of interest. I will now provide context/facts about the $\alpha$-stable distribution that are context-relevant.
+
+* Distributions with $\alpha = 2$ are normal
+* Distributions with $\alpha = 2$ are [Cauchy](https://en.wikipedia.org/wiki/Cauchy_distribution)
+* Distributions with $\alpha < 2$ have undefined second and higher moments (variance and higher moments)
+* Distributions with $\alpha \leq 1$ have undefined first and higher moments (mean and higher moments)
+
+Given this information, it is ideal to limit the distributions to $\alpha\in(1, 2]$ so the drift term(s) is/are well-defined (the drift term needs a mean). There is no general analytic form of the probability distribution function, but its [characteristic function](https://en.wikipedia.org/wiki/Characteristic_function_(probability_theory)) is defined as follows (taken from the [alpha-stable distribution Wikipedia](https://en.wikipedia.org/wiki/Stable_distribution):
+
+$$\phi(t, \alpha, \beta, \sigma, \mu) = \exp\left(it\mu - |\sigma t|^{\alpha}(1 - i\beta sgn(t)\Phi)\right)$$
+
+where 
+
+$$\Phi = \begin{cases}
+\tan\left(\frac{\pi\alpha}{2}\right) \text{, } \alpha \neq 1
+-\frac{2}{\pi}\log|t| \text{, else}
+\end{cases}$$
 
 **$\alpha$-CIR**
 
