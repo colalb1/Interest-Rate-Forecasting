@@ -124,11 +124,21 @@ and
 
 $$S_{\alpha, \beta} = \left(1 + \beta ^ 2\tan^2\left(\frac{\pi\alpha}{2}\right)\right)^{1 / (2\alpha)}$$
 
-given
+given random variables
 
 $$\begin{cases}
 V\sim Unif\left(-\frac{\pi}{2}, \frac{\pi}{2}\right)\\
 W\sim Exp(1)\end{cases}$$
+
+I used the uniform and exponential distribution generators in C++ to simulate these random variables.
+
+As you can tell, most of the legwork was done defining the distribution for this model; the model is relatively straightforward in comparison. The stochastic differential equation is defined as follows:
+
+$$dr(t) = (\kappa r(t-) + \theta)dt + (r(t-)\sigma)^{1 / \alpha} dZ^{\alpha}(t)$$
+
+where $Z^{\alpha}(t)$ is an alpha-stable process.
+
+This is essentially the same as the CIR model except the random walk is based on an alpha-stable distribution instead of a normal distribution.
 
 **$\alpha$-CIR**
 
