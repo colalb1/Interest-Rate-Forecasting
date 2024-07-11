@@ -100,6 +100,21 @@ $$\Phi = \begin{cases}
 -\frac{2}{\pi}\log|t| \text{, else}
 \end{cases}$$
 
+The characteristic function is not particularly useful for this application; it was provided for your general enlightenment.
+
+Thus, the [inverse transform method](https://en.wikipedia.org/wiki/Inverse_transform_sampling) cannot be used since the cumulative distribution function (cdf) cannot be derived from the probability distribution function. Instead, the inverse cdf can be estimated with the stochastic model from [this paper](https://www.sciencedirect.com/science/article/pii/0167715295001131). This paper did not hypothesize the model but proved its correctness. The model is defined as follows (this is a headache to parse since it is VERY nested, but it is relatively straightforward):
+
+$$Y = \begin{cases}
+\mu + \sigma X \text{, } \alpha\neq 1,\\
+\mu + \sigma X + \frac{2}{\pi}\beta\sigma\log(\sigma) \text{, }\alpha = 1
+\end{cases}$$
+
+given 
+
+$$X = \begin{cases}
+S_{\alpha, \beta} \left(\frac{\sin(\alpha(V + B_{\alpha, \beta}))}{(\cos(V))^{1 / \alpha}}\right) \left(\frac{\cos(V - \alpha(V + B_{\alpha, \beta}))}{W}\right)^{(1 - \alpha) / \alpha}
+\end{cases}$$
+
 **$\alpha$-CIR**
 
 
