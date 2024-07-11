@@ -96,7 +96,7 @@ $$\phi(t, \alpha, \beta, \sigma, \mu) = \exp\left(it\mu - |\sigma t|^{\alpha}(1 
 where 
 
 $$\Phi = \begin{cases}
-\tan\left(\frac{\pi\alpha}{2}\right) \text{, } \alpha \neq 1
+\tan\left(\frac{\pi\alpha}{2}\right) \text{, } \alpha \neq 1\\
 -\frac{2}{\pi}\log|t| \text{, else}
 \end{cases}$$
 
