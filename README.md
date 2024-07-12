@@ -138,7 +138,7 @@ $$dr(t) = (\kappa r(t-) + \theta)dt + (r(t-)\sigma)^{1 / \alpha} dZ^{\alpha}(t)$
 
 where $Z^{\alpha}(t)$ is an alpha-stable process and $r(t-)$ is the rate at the previous timestep.
 
-This is essentially the same as the CIR model except the random walk is based on an alpha-stable distribution instead of a normal distribution. The $\alpha$-CIR model in the following section will generalize this by adding additional $(r(t-)\sigma)^{1 / \alpha} dZ^{\alpha}(t)$ terms to more accurately reflect real-life market conditions via jump components, state-dependent volatilities, etc.
+This is essentially the same as the CIR model except the random walk is based on an alpha-stable distribution instead of a normal distribution. The $\alpha$-CIR model in the following section will generalize this by adding additional $(r(t-)\sigma)^{1 / \alpha} dZ^{\alpha}(t)$ terms to more accurately reflect real-life market conditions via multiple independent rate-dependent risks.
 
 **$\alpha$-CIR**
 
