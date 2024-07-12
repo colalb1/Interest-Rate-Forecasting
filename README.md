@@ -150,7 +150,8 @@ given indices
 
 $$1 < \alpha_1 < \dots < \alpha_g \leq 2,$$
 
-independent stable processes $\{Z_i^{\alpha_i}\}\_{\i = 1}\^g$, and rate-dependent volatilities $\{\sigma_i\}\_{\i = 1}\^g$.
+independent stable processes $\left\{Z\_i^{\alpha\_i}\right\}\_{\i = 1}\^g$, and rate-dependent volatilities $\left\{\sigma\_i\right\}\_{\i = 1}\^g$.
+
 
 
 ## TODO:
