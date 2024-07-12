@@ -142,7 +142,7 @@ This is essentially the same as the CIR model except the random walk is based on
 
 **$\alpha$-CIR**
 
-I will define the SDE of this process is defined as follows:
+The SDE of this process is defined as follows:
 
 $$dr(t) = (\kappa r(t-) + \theta)dt + \sum_{i = 1}^g (r(t-)\sigma_i)^{1 / \alpha_i}dZ_i^{\alpha_i}(t)$$
 
