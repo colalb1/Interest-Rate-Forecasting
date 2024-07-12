@@ -132,7 +132,7 @@ W\sim Exp(1)\end{cases}$$
 
 I used the uniform and exponential distribution generators in C++ to simulate these random variables.
 
-As you can tell, most of the legwork was done defining the distribution for this model; the model is straightforward in comparison. The stochastic differential equation is defined as follows:
+As you can tell, most of the legwork is done defining the distribution; the model is straightforward in comparison. The stochastic differential equation is defined as follows:
 
 $$dr(t) = (\kappa r(t-) + \theta)dt + (r(t-)\sigma)^{1 / \alpha} dZ^{\alpha}(t)$$
 
