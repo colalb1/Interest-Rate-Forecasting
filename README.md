@@ -142,9 +142,13 @@ This is essentially the same as the CIR model except the random walk is based on
 
 **$\alpha$-CIR**
 
-I will first define the SDE of this process and then explain its generalizations over the stable-CIR model.
+I will define the SDE of this process and then explain it.
 
-$$dr(t) = (\kappa r(t-) + \theta)dt + \sum_{i = 1}^g (\sigma_ir(t-))^{1 / \alpha_i}dZ_i^{\alpha_i}(t)$$
+$$dr(t) = (\kappa r(t-) + \theta)dt + \sum_{i = 1}^g (r(t-)\sigma_i)^{1 / \alpha_i}dZ_i^{\alpha_i}(t)$$
+
+given 
+
+$$1 < \alpha_1 < \dots < \alpha_g \leq 2.$$
 
 ## TODO:
 
