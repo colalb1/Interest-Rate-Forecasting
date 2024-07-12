@@ -51,7 +51,7 @@ The CIR model addresses the issue of negative interest rates in the Vasicek mode
 
 $$dr(t) = \kappa(\theta - r(t))dt + \sqrt{r(t)} \sigma dW(t)$$
 
-This prevents negative interest rates since the steps become infinitesimally small when $r(t)\to 0$ and must revert from $0$ for the process to continue. Essentially, the steps get smaller by a factor of $\sqrt{r(t)}$ when $r(t)\to 0$ so it is impossible to reach a negative rate.
+This prevents negative interest rates since the steps become infinitesimally small when $r(t)\to 0$ and must revert from $0$ for the process to continue.
 
 All other variables in the CIR model are defined similarly to the Vasicek model. Although slightly more complex, the CIR model is still simple enough to derive the expected rate, variance, and price of a pure-discount bond analytically:
 
@@ -76,9 +76,9 @@ The CIR model suffers from similar issues to the Vasicek model apart from negati
 
 ### Modern Models
 
-**Stable CIR:**
-
 The mathematics of the Stable CIR and $\alpha$-CIR models are derived mainly from [this](https://arxiv.org/abs/2402.07503) paper. 
+
+**Stable CIR:**
 
 As mentioned in the **CIR** subsection, the Stable CIR model aims to enhance the classic CIR model by basing the motion on fatter-tailed distributions as real data tends to show larger aberrations than that of idealized models using Brownian motion. [This paper](https://arxiv.org/abs/1301.3243) gives more mathematical background to WHY we want a fatter-tailed distribution; I encourage you to read this for more background, but I will be omitting the explanation and will move on to the HOW of the problem.
 
@@ -100,9 +100,9 @@ $$\Phi = \begin{cases}
 -\frac{2}{\pi}\log|t| \text{, else}
 \end{cases}$$
 
-The characteristic function is not particularly useful for this application; it was provided for your general enlightenment.
+The characteristic function is not particularly useful for this application; it was provided for context and your general enlightenment.
 
-Thus, the [inverse transform method](https://en.wikipedia.org/wiki/Inverse_transform_sampling) cannot be used since the cumulative distribution function (cdf) cannot be derived from the probability distribution function. Instead, the inverse cdf can be estimated with the stochastic model from [this paper](https://www.sciencedirect.com/science/article/pii/0167715295001131). This paper did not hypothesize the model but proved its correctness. The model is defined as follows (this is a headache to parse since it is VERY nested, but it is relatively straightforward):
+Thus, the [inverse transform method](https://en.wikipedia.org/wiki/Inverse_transform_sampling) cannot be used since the cumulative distribution function (cdf) cannot be derived from the probability distribution function. Instead, the inverse cdf can be estimated with the stochastic model from [this paper](https://www.sciencedirect.com/science/article/pii/0167715295001131). Said paper did not hypothesize the model but proved its correctness. The model is defined as follows (this is a headache to parse since it is VERY nested, but it is relatively straightforward):
 
 $$Y = \begin{cases}
 \mu + \sigma X \text{, } \alpha\neq 1,\\
@@ -132,17 +132,19 @@ W\sim Exp(1)\end{cases}$$
 
 I used the uniform and exponential distribution generators in C++ to simulate these random variables.
 
-As you can tell, most of the legwork was done defining the distribution for this model; the model is relatively straightforward in comparison. The stochastic differential equation is defined as follows:
+As you can tell, most of the legwork was done defining the distribution for this model; the model is straightforward in comparison. The stochastic differential equation is defined as follows:
 
 $$dr(t) = (\kappa r(t-) + \theta)dt + (r(t-)\sigma)^{1 / \alpha} dZ^{\alpha}(t)$$
 
-where $Z^{\alpha}(t)$ is an alpha-stable process.
+where $Z^{\alpha}(t)$ is an alpha-stable process and $r(t-)$ is the rate at the previous timestep.
 
-This is essentially the same as the CIR model except the random walk is based on an alpha-stable distribution instead of a normal distribution.
+This is essentially the same as the CIR model except the random walk is based on an alpha-stable distribution instead of a normal distribution. The $\alpha$-CIR model in the following section will generalize this by adding additional $(r(t-)\sigma)^{1 / \alpha} dZ^{\alpha}(t)$ terms to more accurately reflect real-life market conditions via jump components, state-dependent volatilities, etc.
 
 **$\alpha$-CIR**
 
+I will first define the SDE of this process and then explain its generalizations over the stable-CIR model.
 
+$$dr(t) = (\kappa r(t-) + \theta)dt + \sum_{i = 1}^g (\sigma_ir(t-))^{1 / \alpha_i}dZ_i^{\alpha_i}(t)$$
 
 ## TODO:
 
