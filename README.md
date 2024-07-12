@@ -142,7 +142,7 @@ This is essentially the same as the CIR model except the random walk is based on
 
 **$\alpha$-CIR**
 
-I will define the SDE of this process and then explain it.
+I will define the SDE of this process is defined as follows:
 
 $$dr(t) = (\kappa r(t-) + \theta)dt + \sum_{i = 1}^g (r(t-)\sigma_i)^{1 / \alpha_i}dZ_i^{\alpha_i}(t)$$
 
@@ -151,6 +151,8 @@ given indices
 $$1 < \alpha_1 < \dots < \alpha_g \leq 2,$$
 
 independent stable processes $\left\{ Z\_i^{\alpha\_i} \right\}\_{i = 1}^{g}$, and rate-dependent volatilities  $\left\{ \sigma\_i \right\}\_{i = 1}^{g}$. FIX SET NOTATION LATER!!!!!!!!!! (spent about 10 commits trying to fix)
+
+The summation term $\sum_{i = 1}^g (r(t-)\sigma_i)^{1 / \alpha_i}dZ_i^{\alpha_i}(t)$ represents the summation of multiple independent sources of stochastic noise that scales based on the current interest rate, each process with a unique distribution. The $(r(t-)\sigma_i)^{1 / \alpha_i}$ is state-dependent volatility that provides realism since financial markets tend to exhibit periods of [volatility clustering](https://en.wikipedia.org/wiki/Volatility_clustering#:~:text=In%20finance%2C%20volatility%20clustering%20refers,be%20followed%20by%20small%20changes.%22). Each $(r(t-)\sigma_i)^{1 / \alpha_i}dZ_i^{\alpha_i}(t)$ term represents a different risk, allowing for varying degrees of tail behavior and jump densities for a more nuanced representation of market risks.
 
 
 
