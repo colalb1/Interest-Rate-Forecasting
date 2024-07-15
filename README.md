@@ -27,7 +27,7 @@ The $\sigma dW(t)$ term represents the random fluctuations about the walk, and t
 
 One may solve the differential equation conditional on [filtration](https://en.wikipedia.org/wiki/Filtration_(probability_theory)) $\mathcal{F}(s)$ where $s\leq t$ and obtain the following analytic terms for the expectation and variance of the walk:
 
-$$\mathbb{E}(r(t) | \mathcal{F}(s)) = r(s)e^{-\kappa\tau} + \theta(1 - e^{\kappa(t - s)})$$
+$$\mathbb{E}(r(t) | \mathcal{F}(s)) = r(s)e^{-\kappa\tau} + \theta(1 - e^{-\kappa(t - s)})$$
 
 $$Var(r(t) | \mathcal{F}(s)) = \frac{\sigma ^ 2}{2\kappa}\left(1 - e^{-2\kappa(t - s)}\right)$$
 
