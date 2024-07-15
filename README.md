@@ -138,7 +138,7 @@ $$\begin{cases}
 V\sim Unif\left(-\frac{\pi}{2}, \frac{\pi}{2}\right)\\
 W\sim Exp(1)\end{cases}$$
 
-The uniform and exponential distribution generators in C++ simulated these random variables.
+The uniform and exponential distribution generators in C++ simulated these random variables. This is known as the **Chamber-Mallows-Stuck** method.
 
 Most of the legwork is done defining the distribution; the model is straightforward in comparison. The stochastic differential equation is defined as follows:
 
