@@ -32,9 +32,9 @@ void Expects(bool condition, const char* message = "Precondition failed") {
 class GeneralModelAlpha {
     protected:
         // Model variables
-        double r_0, theta, kappa, sigma;    // intial rate, mean level (the price the process reverts to), reversion rate, volatility, and time increment
+        double r_0, theta, kappa, sigma;    // initial rate, mean level (the price the process reverts to), reversion rate, volatility
 
-        // Class constructor
+        // Constructor
         GeneralModelAlpha(double r_0_con, double theta_con, double kappa_con, double sigma_con) {
             r_0 = r_0_con;
             theta = theta_con;
@@ -65,7 +65,7 @@ class GeneralModelAlpha {
 
         // Distribution for models using non-Brownian motion models
         // Using Chamber-Mallows-Stuck method: https://www.sciencedirect.com/science/article/pii/0167715295001131
-        // alpha = shape (stability) parameter in (0, 2], beta = skewness param in [-1, 1], mu = location aka r_0, sigma = dispersion (positive)
+        // alpha = shape (stability) parameter in (0, 2], beta = skewness param in [-1, 1], mu = location aka r_0, sigma = dispersion > 0
         double alpha_stable_pdf(double alpha, double beta, double mu, double sigma) {
             Expects(0 < alpha && alpha <= 2 && -1 < beta && beta < 1 && sigma > 0, "Alpha-stable pdf conditions violated");
 
@@ -104,7 +104,7 @@ class GeneralModelAlpha {
         }
 };
 
-// Model taken from this article: https://arxiv.org/abs/2402.07503
+// Model from this article: https://arxiv.org/abs/2402.07503
 class StableCIR: private GeneralModelAlpha {
     private:
         // Shape and skew
@@ -141,14 +141,10 @@ class StableCIR: private GeneralModelAlpha {
 };
 
 // The alpha-CIR model is better than CIR for real-world modeling since it allows large fluctuations since it has a tail-fatness parameter
-// and reduces overestimation when interests rates are low, a common issue with the CIR model. The tail will be controlled by alpha_g in 
-// this model.
-
-// Edit: I will be writing a generalization of the alpha-CIR model where the number of dimensions (independent stable processes) is "g" instead of 2,
-// like the original definition of the alpha-CIR model. I will probably use 2 in testing, but I don't want to come back to generalize later.
+// and reduces overestimation when interests rates are low, a common issue with the CIR model.
 class AlphaCIR: private GeneralModelAlpha {
     private:
-        // first is an indicator for whether this is the first iteration
+        // first is an indicator for first iteration
         long double d_calc(const double& alpha, const double& eta, bool first = false) {
             if (first && alpha == 2) {
                 return 2 * eta;
@@ -163,7 +159,7 @@ class AlphaCIR: private GeneralModelAlpha {
         AlphaCIR(double r_0_con,
                  double theta_con,
                  double kappa_con,
-                 std::vector<double> alphas_con, // Input should be reverse sorted; I am relying on the user reading the documentation. 
+                 std::vector<double> alphas_con, // Input should be reverse sorted; READ THE DOCUMENTATION
                  std::vector<double> etas_con): GeneralModelAlpha(r_0_con, 
                                                                   theta_con, 
                                                                   kappa_con, 

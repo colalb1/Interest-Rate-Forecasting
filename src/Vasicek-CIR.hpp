@@ -18,15 +18,14 @@ std::random_device rd;
 std::mt19937 gen(rd());
 std::normal_distribution<double> dist(0.0, 1.0);
 
-// Loop blocking size
-// Hopefully this will speed up performance. This needs to be checked with Intel VTune once the program is more developed and diagnostics are more insightful.
+// Loop blocking size. Should be checked with Intel VTune for each unique machine.
 const int BLOCK_SIZE = 64;
 
-// Initializing global variables that the models will inherit
+// Initializing global variables
 class GeneralModel {
     protected:
         // Model variables
-        double r_0, theta, kappa, sigma;    // intial rate, mean level (the price the process reverts to), reversion rate, volatility, and time increment
+        double r_0, theta, kappa, sigma;    // initial rate, mean level (the price the process reverts to), reversion rate, volatility
 
         // Class constructor
         GeneralModel(double r_0_con, double theta_con, double kappa_con, double sigma_con) {
@@ -38,7 +37,7 @@ class GeneralModel {
 };
 
 
-// Interest rate models
+// Basic interest rate models
 class Vasicek: private GeneralModel {
     private: 
         double B(const double& t, const double& T) {
@@ -51,7 +50,7 @@ class Vasicek: private GeneralModel {
         }
 
     public:
-        // Constructor, uses same construction as parent.
+        // Constructor, uses parent contructor
         Vasicek(double r_0_con, 
                 double theta_con, 
                 double kappa_con, 
