@@ -166,16 +166,18 @@ In short, one may control the $\alpha_i$ and $\sigma_i$ terms for each risk to r
 
 Also known as loop-tiling, this improves computation speed by breaking down large blocks/loops into smaller blocks/tiles that fit into various levels of cache more efficiently. Smaller blocks of data allow the data to stay in the smaller, faster caches (L1 or L2) and reduce cache misses since there are fewer evictions. This allows for multi-level cache utilization that can be tuned using programs such as [Intel VTune](https://www.intel.com/content/www/us/en/developer/tools/oneapi/vtune-profiler.html). One may adjust the block size constant for optimal efficiency.
 
+
+## Conclusion
+
+Write later
+
 ## TODO:
 
-- Improve mathematical formulation of current models
-- Implement improvement of current model
-- Test improved current model
+- Read new papers
+- Implement new models
 - Write technical README
 - Write intro and conclusion README
 - Share
-
-USE INTEL VTUNE TO FIND OPTIMAL LOOP-BLOCKING SIZE
 
 ## Side Note
 The descriptions came out much longer than I intended, but I figured I would make it detailed since my only other life responsibility while completing the bulk of this project was playing Elden Ring. At the time of this writing, I have a level 180+ Dex build using the [Backhand Blade](https://eldenring.wiki.fextralife.com/Backhand+Blade). I am tearing through the DLC as we speak (I write). 
