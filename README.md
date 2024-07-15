@@ -27,19 +27,19 @@ The $\sigma dW(t)$ term represents the random fluctuations about the walk, and t
 
 One may solve the differential equation conditional on [filtration](https://en.wikipedia.org/wiki/Filtration_(probability_theory)) $\mathcal{F}(s)$ where $s\leq t$ and obtain the following analytic terms for the expectation and variance of the walk:
 
-$$\mathbb{E}(r(t) | \mathcal{F}(s)) = r(s)\exp(-\kappa (t - s)) + \theta (1 - \exp(-\kappa (t - s)))$$
+$$\mathbb{E}(r(t) | \mathcal{F}(s)) = r(s)e^{-\kappa\tau} + \theta(1 - e^{\kappa(t - s)})$$
 
-$$Var(r(t) | \mathcal{F}(s)) = \frac{\sigma ^ 2}{2\kappa}\left(1 - \exp(-2\kappa (t - s)\right)$$
+$$Var(r(t) | \mathcal{F}(s)) = \frac{\sigma ^ 2}{2\kappa}\left(1 - e^{-2\kappa(t - s)}\right)$$
 
-Given the simplicity of the model, one may derive the price of a pure-discount bond given current time $t$ and expiration date $T$:
+Given the simplicity of the model, one may derive the price of a pure-discount bond given current time $t$, expiration date $T$, and time to expiry $\tau$:
 
 $$P(t, T) = \exp\left[A(t, T) - B(t, T)r(t)\right]$$
 
 where
 
-$$B(t, T) = \frac{1}{k}\left(1 - \exp(1 - \kappa (T - t))\right)$$
+$$B(t, T) = \frac{1}{k}\left(1 - e^{\kappa\tau}\right)$$
 
-$$A(t, T) = \left(\theta - \frac{\sigma ^ 2}{2\kappa ^ 2}\right)(B(t, T) - T + t) - \frac{\sigma ^ 2}{4k}B(t, T)^2$$
+$$A(t, T) = \left(\theta - \frac{\sigma ^ 2}{2\kappa ^ 2}\right)(B(t, T) - \tau) - \frac{\sigma ^ 2}{4k}B(t, T)^2$$
 
 I will defer further mathematical explanation to Section **3.2.1** of [the reference book](https://www.amazon.com/Interest-Rate-Models-Practice-Inflation/dp/3540221492) for brevity.
 
