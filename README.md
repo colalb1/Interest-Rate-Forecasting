@@ -4,6 +4,14 @@ Implementation of common and state-of-the-art interest rate models in C++. This 
 
 ## Files
 
+The [src](https://github.com/colalb1/Interest-Rate-Forecasting/tree/main/src) folder contains the helper files containing the models and a testing environment.
+
+[*Vasicek-CIR.hpp*](https://github.com/colalb1/Interest-Rate-Forecasting/blob/main/src/Vasicek-CIR.hpp) contains the basic Vasicek and CIR implementations.
+
+[*General-CIR.hpp*](https://github.com/colalb1/Interest-Rate-Forecasting/blob/main/src/General-CIR.hpp) contains the Stable CIR and $\alpha$-CIR models.
+
+[*testing.cpp*](https://github.com/colalb1/Interest-Rate-Forecasting/blob/main/src/testing.cpp) is the testing environment.
+
 ## Models
 
 If you are unfamiliar with the classic interest rate models, I recommend reading [this](https://www.amazon.com/Interest-Rate-Models-Practice-Inflation/dp/3540221492) book; this text was used for mathematical reference of the classic models. A basic description of the classic models is also given below. If you are familiar with them, skip to the **Modern Models** subsection.
@@ -156,7 +164,6 @@ In short, one may control the $\alpha_i$ and $\sigma_i$ terms for each risk to r
 
 ## TODO:
 
-- WRITE README FOR COMPLETED PARTS
 - Improve mathematical formulation of current models
 - Implement improvement of current model
 - Test improved current model
