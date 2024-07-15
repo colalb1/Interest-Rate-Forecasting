@@ -144,7 +144,7 @@ This is essentially the same as the CIR model except the random walk is based on
 
 The SDE of this process is defined as follows:
 
-$$dr(t) = (\kappa r(t-) + \theta)dt + \sum_{i = 1}^g (r(t-)\sigma_i)^{1 / \alpha_i}dZ_i^{\alpha_i}(t)$$
+$$dr(t) = (\kappa r(t-) + \theta)dt + \sum_{i = 1}^g (\sigma_ir(t-))^{1 / \alpha_i}dZ_i^{\alpha_i}(t)$$
 
 given indices $1 < \alpha_1 < \dots < \alpha_g \leq 2$, independent stable processes $Z_i^{\alpha_i}$, and rate-dependent volatilities $\sigma_i$ for $i = 1, \dots g$.
 
