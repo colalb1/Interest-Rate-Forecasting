@@ -150,7 +150,13 @@ given indices
 
 $$1 < \alpha_1 < \dots < \alpha_g \leq 2,$$
 
-independent stable processes $\left\{ Z\_i^{\alpha\_i} \right\}\_{i = 1}^{g}$, and rate-dependent volatilities  $\left\{ \sigma\_i \right\}\_{i = 1}^{g}$. FIX SET NOTATION LATER!!!!!!!!!! (spent about 10 commits trying to fix)
+independent stable processes 
+
+$$\{Z\_i^{\alpha_i}\}_{i = 1}^{g}$$
+
+and rate-dependent volatilities  
+
+$$\{\sigma_i\}_{i = 1}^{g}$$
 
 The summation term represents multiple independent sources of stochastic noise that scale based on the current interest rate, each process with a unique distribution. The $(r(t-)\sigma_i)^{1 / \alpha_i}$ term is state-dependent volatility that provides additional realism via [volatility clustering](https://en.wikipedia.org/wiki/Volatility_clustering#:~:text=In%20finance%2C%20volatility%20clustering%20refers,be%20followed%20by%20small%20changes.%22). Each $(r(t-)\sigma_i)^{1 / \alpha_i}dZ_i^{\alpha_i}(t)$ term represents a different risk, allowing for varying degrees of tail behavior and jump densities for a more nuanced representation of market risks.
 
