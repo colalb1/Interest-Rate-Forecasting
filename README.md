@@ -37,7 +37,7 @@ $$P(t, T) = \exp\left[A(t, T) - B(t, T)r(t)\right]$$
 
 where
 
-$$B(t, T) = \frac{1}{k}\left(1 - e^{\kappa\tau}\right)$$
+$$B(t, T) = \frac{1}{k}\left(1 - e^{-\kappa\tau}\right)$$
 
 $$A(t, T) = \left(\theta - \frac{\sigma ^ 2}{2\kappa ^ 2}\right)(B(t, T) - \tau) - \frac{\sigma ^ 2}{4k}B(t, T)^2$$
 
