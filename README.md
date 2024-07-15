@@ -148,7 +148,7 @@ $$dr(t) = (\kappa r(t-) + \theta)dt + \sum_{i = 1}^g (\sigma_ir(t-))^{1 / \alpha
 
 given indices $1 < \alpha_1 < \dots < \alpha_g \leq 2$, independent stable processes $Z_i^{\alpha_i}$, and rate-dependent volatilities $\sigma_i$ for $i = 1, \dots g$.
 
-The summation term represents multiple independent sources of stochastic noise that scale based on the current interest rate, each process with a unique distribution. The $(r(t-)\sigma_i)^{1 / \alpha_i}$ term is state-dependent volatility that provides additional realism via [volatility clustering](https://en.wikipedia.org/wiki/Volatility_clustering#:~:text=In%20finance%2C%20volatility%20clustering%20refers,be%20followed%20by%20small%20changes.%22). Each $(r(t-)\sigma_i)^{1 / \alpha_i}dZ_i^{\alpha_i}(t)$ term represents a different risk, allowing for varying degrees of tail behavior and jump densities for a more nuanced representation of market risks.
+The summation term represents multiple independent sources of stochastic noise that scale based on the current interest rate, each process with a unique distribution. The $(\sigma_ir(t-))^{1 / \alpha_i}$ term is state-dependent volatility that provides additional realism via [volatility clustering](https://en.wikipedia.org/wiki/Volatility_clustering#:~:text=In%20finance%2C%20volatility%20clustering%20refers,be%20followed%20by%20small%20changes.%22). Each $(\sigma_ir(t-))^{1 / \alpha_i}dZ_i^{\alpha_i}(t)$ term represents a different risk, allowing for varying degrees of tail behavior and jump densities for a more nuanced representation of market risks.
 
 In short, one may control the $\alpha_i$ and $\sigma_i$ terms for each risk to represent market conditions accurately at a given interest rate.
 
