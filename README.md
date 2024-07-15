@@ -150,7 +150,7 @@ given indices $1 < \alpha_1 < \dots < \alpha_g \leq 2$, independent stable proce
 
 The summation term represents multiple independent sources of stochastic noise that scale based on the current interest rate, each process with a unique distribution. The $(\sigma_ir(t-))^{1 / \alpha_i}$ term is state-dependent volatility that provides additional realism via [volatility clustering](https://en.wikipedia.org/wiki/Volatility_clustering#:~:text=In%20finance%2C%20volatility%20clustering%20refers,be%20followed%20by%20small%20changes.%22). Each $(\sigma_ir(t-))^{1 / \alpha_i}dZ_i^{\alpha_i}(t)$ term represents a different risk, allowing for varying degrees of tail behavior and jump densities for a more nuanced representation of market risks.
 
-In short, one may control the $\alpha_i$ and $\sigma_i$ terms for each risk to represent market conditions accurately at a given interest rate.
+In short, one may control the $\alpha_i$ and $\sigma_i$ terms for each risk to represent market conditions accurately at a given interest rate. This completes the description of the practical information regarding this model. If you are interested in more of the statistical-theoretic nuance (such as the classification of generating equations, the canonical representation of these models, or moments of the rates), read Section 3 of [the paper](https://arxiv.org/abs/2402.07503).
 
 
 
