@@ -160,7 +160,11 @@ The summation term represents multiple independent sources of stochastic noise t
 
 In short, one may control the $\alpha_i$ and $\sigma_i$ terms for each risk to represent market conditions accurately at a given interest rate. If you are interested in more of the statistical-theoretic nuance (classification of generating equations, canonical representation, moments of the rates, etc.) of this model, read Section 3 of [the paper](https://arxiv.org/abs/2402.07503).
 
+## Programmatic Optimizations
 
+**Loop-blocking**
+
+Also known as loop-tiling, this improves computation speed by breaking down large blocks/loops into smaller blocks/tiles that fit into various levels of cache more efficiently. Smaller blocks of data allow the data to stay in the smaller, faster caches (L1 or L2) and reduce cache misses since there are fewer evictions. This allows for multi-level cache utilization that can be tuned using programs such as [Intel VTune](https://www.intel.com/content/www/us/en/developer/tools/oneapi/vtune-profiler.html). One may adjust the block size constant for optimal efficiency.
 
 ## TODO:
 
