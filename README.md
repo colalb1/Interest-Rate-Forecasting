@@ -173,7 +173,7 @@ Write later
 
 ## TODO:
 
-- Read new papers
+- Read new papers (LIBOR)
 - Implement new models
 - Write technical README
 - Write intro and conclusion README
