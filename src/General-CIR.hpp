@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <random>
 #include <functional>
+#include <cassert>
 
 // Initializing standard normal distribution
 std::random_device rd;
@@ -155,6 +156,15 @@ class AlphaCIR: private GeneralModelAlpha {
             return eta * alpha * (alpha - 1) / tgamma(2 - alpha);
         }
 
+        // Functions that check whether alphas vector is reverse sorted
+        bool compare_descending(int& a, int& b) {
+            return a > b;
+        }
+
+        void check_reverse_sorted(const std::vector<double> vals) {
+            assert(std::is_sorted(vals.begin(), vals.end(), compare_descending));
+        }
+
     public:
         AlphaCIR(double r_0_con,
                  double theta_con,
@@ -168,6 +178,8 @@ class AlphaCIR: private GeneralModelAlpha {
         
         // Create the alpha-stable path
         std::vector<double> simulated_value(long int num_time_steps, double T) {
+            check_reverse_sorted(alphas);
+
             double d_t = T / num_time_steps;
 
             std::vector<double> d_variance(etas.size(), 0);
