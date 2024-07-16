@@ -173,6 +173,7 @@ Write later
 
 ## TODO:
 
+- Black-Karasinksi, CIR++, Extended Exponential Vasicek because I can manipulate the cap volatility curves
 - Read new papers (LIBOR)
 - Implement new models
 - Write technical README
