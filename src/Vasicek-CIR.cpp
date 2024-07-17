@@ -83,6 +83,48 @@ class Vasicek: private GeneralModel {
         }
 };
 
+
+class ExponentialVasicek: private GeneralModel {
+    public:
+        // Constructor, uses parent contructor
+        ExponentialVasicek(auto r_0_con, 
+                           auto theta_con, 
+                           auto kappa_con, 
+                           auto sigma_con): GeneralModel(r_0_con, 
+                                                         theta_con, 
+                                                         kappa_con, 
+                                                         sigma_con) {};
+
+
+        // Expected rate and expected variance assume that T\to\infty
+        // See page 71 of this book: Interest Rate Models - Theory and Practice: With Smile, Inflation and Credit by Brigo and Mercurio
+        double expected_rate(const double& t, const double& T) {
+            return exp(theta / kappa + std::pow(sigma, 2) / (4 * kappa));
+        }
+
+        double expected_variance(const double& t, const double& T) {
+            return exp(2 * theta / kappa + std::pow(sigma, 2) / (2 * kappa)) * (exp(std::pow(sigma, 2) / (2 * kappa)) - 1);
+        }
+
+        std::vector<auto> simulated_value(const auto& num_time_steps, const auto& T) {
+            const auto d_t = T / num_time_steps;
+            std::vector<auto> rates(num_time_steps, 0);
+            rates[0] = r_0;
+
+            for (int i = 1; i < num_time_steps; i += BLOCK_SIZE) {
+                for (int j = i; j < std::min(i + BLOCK_SIZE, num_time_steps); ++j) {
+                    auto drift = rates[j - 1] * (theta + std::pow(sigma, 2) - kappa * log(rates[j - 1])) * d_t
+                    auto diffusion = sigma * rates[j - 1] * sqrt(d_t) * dist(gen)
+
+                    rates[j] = rates[j - 1] + drift + diffusion;
+                }
+            }
+
+            return rates;
+        }
+};
+
+
 class CIR: private GeneralModel {
     private:
         double B(const double& t, const double& T) {

@@ -42,7 +42,7 @@ class BlackKarasinski {
             theta = theta_con;
         }
 
-        std::vector<auto> simulated_value(long int num_time_steps, double T) {
+        std::vector<auto> simulated_value(auto num_time_steps, double T) {
             auto d_t = T / num_time_steps;
 
             std::vector<auto> rates(num_time_steps, 0);
@@ -59,10 +59,28 @@ class BlackKarasinski {
         }
 };
 
-// pg 102
+// I took a fair number of creative liberties on this model for simplicity purposes.
+// If you desire a greater amount of realism, I encourage you to fork and add details.
 class CIRpp {
     private:
         auto x_0, kappa, theta, sigma;
+
+        std::vector<auto> maturities, yields;
+
+        // Simple zero-coupon bond price. This is not the focus of the project, and rather on the methods.
+        // Add realistic dynamics as you please.
+        auto ZCBP(const auto rate, const auto expiration_time) {
+            return exp(-rate * expiration_time);
+        }
+
+        auto spot_rate(const auto rate, const auto expiration_time) {
+            return -log(ZCBP(rate, expiration_time)) / expiration_time;
+        }
+
+        // Simple implementation. Will make more realistic, time permitting.
+        auto instant_forward_rate(const auto rate, const auto expiration_time, const auto d_R_d_T) {
+            return spot_rate(rate, expiration_time) + expiration_time * d_R_d_T;
+        }
 
         auto f_cir(const auto time, const auto kappa, const auto theta, const auto sigma) {
             auto h = sqrt(std::pow(kappa, 2) + 2 * std::pow(sigma, 2));
@@ -73,11 +91,40 @@ class CIRpp {
             return first_term + second_term;
         }
 
-        auto phi_cir(const auto time, const auto alpha) {
-            return f_M(0, time) - f_cir(time, kappa, theta, sigma);
+        auto phi_cir(const auto time) {
+            return instant_forward_rate(last_rate, time, 0.001) - f_cir(time, kappa, theta, sigma); // 0.001 is placeholder for now
         }
 
     public:
+        CIRpp(auto x_0_con, 
+              auto kappa_con, 
+              auto sigma_con, 
+              auto theta_con, 
+              std::vector<auto> maturities_con, 
+              std::vector<auto> yields_con) {
+            x_0 = x_0_con;
+            kappa = kappa_con;
+            sigma = sigma_con;
+            theta = theta_con;
+            maturities = maturities_con;
+            yields = yields_con;
+        }
+
+        // "xates" represents the solution to the CIR, "rates" represents xates + (shift imposed by \phi)
+        // See the documentation for more mathematical context
+        std::vector<auto> simulated_value(auto num_time_steps, auto T) {
+            auto d_t = T / num_time_steps;
+
+            std::vector<auto> xates(num_time_steps, 0), rates(num_time_steps, 0);
+            xates[0] = x_0; rates[0] = xates[0] + phi_cir(0);
+
+            for (int i = 1; i < num_time_steps; ++i) {
+                xates[i] = std::max(0.0, rates[i - 1] + kappa * (theta - rates[i - 1]) * d_t + sigma * sqrt(std::max<double>(rates[i - 1], 0.0) * d_t) * dist(gen));
+                rates[i] = xates[i - 1] + phi_cir(i * T);
+            }
+
+            return rates;
+        }
 
 };
 
@@ -91,5 +138,7 @@ class ExtendedExponentialVasicek {
 
 
 int main() {
+    // std::vector<double> maturities = {1, 2, 3, 4, 5}; // Maturities in years
+    // std::vector<double> yields = {0.02, 0.025, 0.03, 0.035, 0.04}; // Spot rates
     return 0;
 }
