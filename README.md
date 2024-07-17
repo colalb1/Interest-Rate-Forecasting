@@ -4,13 +4,11 @@ Implementation of common and state-of-the-art interest rate models in C++. This 
 
 ## Files
 
-The [src](https://github.com/colalb1/Interest-Rate-Forecasting/tree/main/src) folder contains the helper files containing the models and a testing environment.
+The [src](https://github.com/colalb1/Interest-Rate-Forecasting/tree/main/src) folder contains the cpp files with the models.
 
-[*Vasicek-CIR.hpp*](https://github.com/colalb1/Interest-Rate-Forecasting/blob/main/src/Vasicek-CIR.hpp) contains the basic Vasicek and CIR implementations.
+[*Vasicek-CIR.cpp*](https://github.com/colalb1/Interest-Rate-Forecasting/blob/main/src/Vasicek-CIR.cpp) contains the basic Vasicek and CIR implementations.
 
-[*General-CIR.hpp*](https://github.com/colalb1/Interest-Rate-Forecasting/blob/main/src/General-CIR.hpp) contains the Stable CIR and $\alpha$-CIR models.
-
-[*testing.cpp*](https://github.com/colalb1/Interest-Rate-Forecasting/blob/main/src/testing.cpp) is the testing environment.
+[*General-CIR.hpp*](https://github.com/colalb1/Interest-Rate-Forecasting/blob/main/src/General-CIR.cpp) contains the Stable CIR and $\alpha$-CIR implementations.
 
 ## Models
 
