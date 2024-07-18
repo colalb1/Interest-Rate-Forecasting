@@ -24,22 +24,21 @@ const int BLOCK_SIZE = 64;
 // inside.
 class BlackKarasinski {
     private:
+        // Theta depends on time
         double r_0, kappa, sigma;
-        std::vector<double> theta;
 
         // Uncomment based on desired theta model
-        double get_theta(double time, double r_init) {
-            return r_init; // Constant
-            // return r_init + 0.001 * time; // Linear with time
+        double get_theta(const double& time, const double& r_init) {
+            // return r_init; // Constant
+            return r_init + 0.001 * time; // Linear with time
             // return r_init * exp(0.001 * time); // Exponential
         }
 
     public:
-        BlackKarasinski(double r_0_con, double kappa_con, double sigma_con, std::vector<double> theta_con) {
+        BlackKarasinski(double r_0_con, double kappa_con, double sigma_con) {
             r_0 = r_0_con;
             kappa = kappa_con;
             sigma = sigma_con;
-            theta = theta_con;
         }
 
         std::vector<double> simulated_value(double num_time_steps, double T) {
@@ -70,15 +69,18 @@ class CIRpp {
         // Simple zero-coupon bond price. This is not the focus of the project, and rather on the methods.
         // Add realistic dynamics as you please.
         auto ZCBP(const double rate, const double expiration_time) {
+            std::cout << "ZCB value: " << exp(-rate * expiration_time) << std::endl;
             return exp(-rate * expiration_time);
         }
 
         auto spot_rate(const double rate, const double expiration_time) {
+            std::cout << "Spot rate: " << -log(ZCBP(rate, expiration_time)) / expiration_time << std::endl;
             return -log(ZCBP(rate, expiration_time)) / expiration_time;
         }
 
         // Simple implementation. Will make more realistic, time permitting.
         auto instant_forward_rate(const double rate, const double expiration_time, const double d_R_d_T) {
+            std::cout << "instant forward rate: " << spot_rate(rate, expiration_time) + expiration_time * d_R_d_T << std::endl;
             return spot_rate(rate, expiration_time) + expiration_time * d_R_d_T;
         }
 
@@ -97,9 +99,9 @@ class CIRpp {
 
     public:
         CIRpp(double x_0_con, 
+              double theta_con, 
               double kappa_con, 
               double sigma_con, 
-              double theta_con, 
               std::vector<double> maturities_con, 
               std::vector<double> yields_con) {
             x_0 = x_0_con;
@@ -138,6 +140,23 @@ class ExtendedExponentialVasicek {
 
 
 int main() {
+    // BlackKarasinski bk_testing_class(0.05, 0.2, 0.02);
+    // std::vector<double> bk_temp = bk_testing_class.simulated_value(10000, 1);
+    // std::cout << "Black-Karasinski simulated rate: " << bk_temp[bk_temp.size() - 1] << std::endl;
+
+
+// double x_0_con, 
+//               double theta_con, 
+//               double kappa_con, 
+//               double sigma_con, 
+//               std::vector<double> maturities_con, 
+//               std::vector<double> yields_con
+
+    CIRpp cirpp_testing_class(0.05, 0.1, 0.2, 0.02, {1}, {0.02});
+    std::vector<double> cirpp_temp = cirpp_testing_class.simulated_value(10000, 1);
+    std::cout << "CIR++ simulated rate: " << cirpp_temp[cirpp_temp.size() - 1] << std::endl;
+
+
     // std::vector<double> maturities = {1, 2, 3, 4, 5}; // Maturities in years
     // std::vector<double> yields = {0.02, 0.025, 0.03, 0.035, 0.04}; // Spot rates
     return 0;
