@@ -52,7 +52,7 @@ class GeneralModelAlpha {
         }
 
         // Helper function for alpha-stable distribution generator
-        double kappa_sign(double& val) {
+        double kappa_sign(double val) {
             if (val < 1) {
                 return val;
             } else if (val > 1) {
@@ -143,7 +143,7 @@ class StableCIR: private GeneralModelAlpha {
 class AlphaCIR: private GeneralModelAlpha {
     private:
         // first is an indicator for first iteration
-        long double d_calc(const double& alpha, const double& eta, bool first = false) {
+        long double d_calc(const double alpha, const double eta, bool first = false) {
             if (first && alpha == 2) {
                 return 2 * eta;
             }
@@ -154,11 +154,11 @@ class AlphaCIR: private GeneralModelAlpha {
         }
 
         // Functions that check whether alphas vector is reverse sorted
-        bool compare_descending(int& a, int& b) {
+        static bool compare_descending(const int& a, const int& b) {
             return a > b;
         }
 
-        void check_reverse_sorted(const std::vector<double> vals) {
+        void check_reverse_sorted(const std::vector<double>& vals) {
             assert(std::is_sorted(vals.begin(), vals.end(), compare_descending));
         }
 
@@ -177,7 +177,7 @@ class AlphaCIR: private GeneralModelAlpha {
         std::vector<double> simulated_value(long int num_time_steps, double T) {
             check_reverse_sorted(alphas);
 
-            double d_t = T / num_time_steps;
+            auto d_t = T / num_time_steps;
 
             std::vector<double> d_variance(etas.size(), 0);
             d_variance[0] = d_calc(alphas[0], etas[0], true);
@@ -207,17 +207,17 @@ class AlphaCIR: private GeneralModelAlpha {
 
 
 int main() {
-    // StableCIR stable_testing_class(1, 0, 0.12, 0.02, 3, 0.4);
-    // std::vector<double> stb_temp = stable_testing_class.simulated_value(1000000, 1);
+
+    // StableCIR stable_testing_class(1, 0, 0.05, 0.1, 0.2, 0.02);
+    // std::vector<double> stb_temp = stable_testing_class.simulated_value(10000, 1);
     // std::cout << "Stable CIR simulated rate: " << stb_temp[stb_temp.size() - 1] << std::endl;
     
 
     // Defining alpha and variance values for alpha-CIR
+    // std::vector<double> temp_alphas = {1.1, 1.05};
+    // std::vector<double> temp_variances = {0.02, 0.05};
 
-    // std::vector<double> temp_alphas = {2, 1.5};
-    // std::vector<double> temp_variances = {0.15, 0.3 * tgamma(0.5) / 0.75};
-
-    // AlphaCIR alph_testing_class(0.12, 0.02, 500000, temp_alphas, temp_variances);
+    // AlphaCIR alph_testing_class(0.05, 0.1, 0.2, temp_alphas, temp_variances);
     // std::vector<double> alph_temp = alph_testing_class.simulated_value(1000000, 1);
     // std::cout << "Alpha-CIR simulated rate: " << alph_temp[alph_temp.size() - 1] << std::endl;
     return 0;

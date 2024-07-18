@@ -56,7 +56,7 @@ class Vasicek: private GeneralModel {
                                                 kappa_con, 
                                                 sigma_con) {};
 
-        double exact_value(const double& t, const double& T) {
+        double exact_bond_value(const double& t, const double& T) {
             return exp(A(t, T) - r_0 * B(t, T));
         }
 
@@ -99,7 +99,7 @@ class ExponentialVasicek: private GeneralModel {
         // Expected rate and expected variance assume that T\to\infty
         // See page 71 of this book: Interest Rate Models - Theory and Practice: With Smile, Inflation and Credit by Brigo and Mercurio
         double expected_rate(const double& t, const double& T) {
-            return exp(theta / kappa + std::pow(sigma, 2) / (4 * kappa));
+            return exp(theta / kappa + std::pow(sigma, 2) / (4 * kappa)) - 1;
         }
 
         double expected_variance(const double& t, const double& T) {
@@ -113,10 +113,10 @@ class ExponentialVasicek: private GeneralModel {
 
             for (int i = 1; i < num_time_steps; i += BLOCK_SIZE) {
                 for (int j = i; j < std::min(i + BLOCK_SIZE, num_time_steps); ++j) {
-                    auto drift = rates[j - 1] * (theta + std::pow(sigma, 2) - kappa * log(rates[j - 1])) * d_t;
-                    auto diffusion = sigma * rates[j - 1] * sqrt(d_t) * dist(gen);
+                    auto drift = (r_0 - std::pow(sigma, 2) / (2 * theta)) * (1 - exp(-theta * d_t));
+                    auto diffusion = sqrt(1 - exp(-2 * theta * d_t)) * std::pow(sigma, 2) /  (2 * theta) * dist(gen);
 
-                    rates[j] = rates[j - 1] + drift + diffusion;
+                    rates[j] = rates[j - 1] * exp(-theta * d_t) + drift + diffusion;
                 }
             }
 
@@ -151,7 +151,7 @@ class CIR: private GeneralModel {
                                             kappa_con, 
                                             sigma_con) {};
 
-        double exact_value(const double& t, const double& T) {
+        double exact_bond_value(const double& t, const double& T) {
             return A(t, T) * exp(-r_0 * B(t, T));
         }
 
@@ -180,29 +180,19 @@ class CIR: private GeneralModel {
 
 
 int main() {
-    // Uncomment models for testing
-
-    Vasicek vas_testing_class(0.1, 0.02, 10, 0.06);
-    std::cout << "Vasicek exact rate: " << vas_testing_class.exact_value(0, 1) << std::endl;
-    std::cout << "Vasicek expected rate: " << vas_testing_class.expected_rate(0, 1) << std::endl;
-    std::cout << "Vasicek expected variance: " << vas_testing_class.expected_variance(0, 1) << std::endl;
-    std::vector<double> vas_temp = vas_testing_class.simulated_value(10000, 1);
-    std::cout << "Vasicek simulated rate: " << vas_temp[vas_temp.size() - 1] << std::endl;
+    // Vasicek vas_testing_class(0.05, 0.1, 0.2, 0.02);
+    // std::vector<double> vas_temp = vas_testing_class.simulated_value(10000, 1);
+    // std::cout << "Vasicek simulated rate: " << vas_temp[vas_temp.size() - 1] << std::endl;
 
 
-    // CIR cir_testing_class(0.1, 0.02, 10, 0.06);
-    // std::cout << "CIR exact rate: " << cir_testing_class.exact_value(0, 1) << std::endl;
-    // std::cout << "CIR expected rate: " << cir_testing_class.expected_rate(0, 1) << std::endl;
-    // std::cout << "CIR expected variance: " << cir_testing_class.expected_variance(0, 1) << std::endl;
+    // CIR cir_testing_class(0.05, 0.1, 0.2, 0.02);
     // std::vector<double> cir_temp = cir_testing_class.simulated_value(10000, 1);
     // std::cout << "CIR simulated rate: " << cir_temp[cir_temp.size() - 1] << std::endl;
 
 
-    ExponentialVasicek exp_vas_testing_class(0.1, 0.02, 10, 0.06);
-    std::cout << "Exp Vas expected rate: " << exp_vas_testing_class.expected_rate(0, 1) << std::endl;
-    std::cout << "Exp Vas expected variance: " << exp_vas_testing_class.expected_variance(0, 1) << std::endl;
-    std::vector<double> exp_vas_temp = exp_vas_testing_class.simulated_value(10000, 1);
-    std::cout << "Exp Vas simulated rate: " << exp_vas_temp[exp_vas_temp.size() - 1] << std::endl;
+    // ExponentialVasicek exp_vas_testing_class(0.05, 0.1, 0.2, 0.02);
+    // std::vector<double> exp_vas_temp = exp_vas_testing_class.simulated_value(10000, 1);
+    // std::cout << "Exp Vas simulated rate: " << exp_vas_temp[exp_vas_temp.size() - 1] << std::endl;
 
     return 0;
 }
