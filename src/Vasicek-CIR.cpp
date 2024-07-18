@@ -182,12 +182,12 @@ class CIR: private GeneralModel {
 int main() {
     // Uncomment models for testing
 
-    // Vasicek vas_testing_class(0.1, 0.02, 10, 0.06);
-    // std::cout << "Vasicek exact rate: " << vas_testing_class.exact_value(0, 1) << std::endl;
-    // std::cout << "Vasicek expected rate: " << vas_testing_class.expected_rate(0, 1) << std::endl;
-    // std::cout << "Vasicek expected variance: " << vas_testing_class.expected_variance(0, 1) << std::endl;
-    // std::vector<double> vas_temp = vas_testing_class.simulated_value(10000, 1);
-    // std::cout << "Vasicek simulated rate: " << vas_temp[vas_temp.size() - 1] << std::endl;
+    Vasicek vas_testing_class(0.1, 0.02, 10, 0.06);
+    std::cout << "Vasicek exact rate: " << vas_testing_class.exact_value(0, 1) << std::endl;
+    std::cout << "Vasicek expected rate: " << vas_testing_class.expected_rate(0, 1) << std::endl;
+    std::cout << "Vasicek expected variance: " << vas_testing_class.expected_variance(0, 1) << std::endl;
+    std::vector<double> vas_temp = vas_testing_class.simulated_value(10000, 1);
+    std::cout << "Vasicek simulated rate: " << vas_temp[vas_temp.size() - 1] << std::endl;
 
 
     // CIR cir_testing_class(0.1, 0.02, 10, 0.06);
@@ -196,5 +196,13 @@ int main() {
     // std::cout << "CIR expected variance: " << cir_testing_class.expected_variance(0, 1) << std::endl;
     // std::vector<double> cir_temp = cir_testing_class.simulated_value(10000, 1);
     // std::cout << "CIR simulated rate: " << cir_temp[cir_temp.size() - 1] << std::endl;
+
+
+    ExponentialVasicek exp_vas_testing_class(0.1, 0.02, 10, 0.06);
+    std::cout << "Exp Vas expected rate: " << exp_vas_testing_class.expected_rate(0, 1) << std::endl;
+    std::cout << "Exp Vas expected variance: " << exp_vas_testing_class.expected_variance(0, 1) << std::endl;
+    std::vector<double> exp_vas_temp = exp_vas_testing_class.simulated_value(10000, 1);
+    std::cout << "Exp Vas simulated rate: " << exp_vas_temp[exp_vas_temp.size() - 1] << std::endl;
+
     return 0;
 }
