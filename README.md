@@ -10,7 +10,7 @@ The [src](https://github.com/colalb1/Interest-Rate-Forecasting/tree/main/src) fo
 
 [*General-CIR.hpp*](https://github.com/colalb1/Interest-Rate-Forecasting/blob/main/src/General-CIR.cpp) contains the Stable CIR and $\alpha$-CIR implementations.
 
-[*BK-CIRpp-EEVas.cpp*](https://github.com/colalb1/Interest-Rate-Forecasting/blob/main/src/BK-CIRpp-EEVas.cpp) contains the Black-Karasinski, ~~CIR++, and Extended Exponential Vasicek (EEV)~~ implementations.
+[*BK-CIRpp-EEVas.cpp*](https://github.com/colalb1/Interest-Rate-Forecasting/blob/main/src/BK-CIRpp-EEVas.cpp) contains the Black-Karasinski implementation.
 
 ## Models
 
@@ -51,7 +51,7 @@ $$A(t, T) = \left(\theta - \frac{\sigma ^ 2}{2\kappa ^ 2}\right)(B(t, T) - \tau)
 
 I will defer further mathematical explanation to Section **3.2.1** of [the reference book](https://www.amazon.com/Interest-Rate-Models-Practice-Inflation/dp/3540221492) for brevity.
 
-A few main issues of the Vasicek model are that it allows for negative interest rates due to the unconstrained movement of the $\sigma dW(t)$ term, unrealistic constant volatility/reversion speed, and the assumption that the process is based on the normal distribution. The following model addresses the negative interest rates.
+A few main issues of the Vasicek model are that it allows for negative interest rates due to the unconstrained movement of the $\sigma dW(t)$ term, unrealistic constant volatility/reversion speed, and the assumption that the process is based on the normal distribution. The **CIR** model addresses the negative interest rates.
 
 **Cox-Ingress-Ross (CIR):**
 
@@ -81,6 +81,35 @@ I will defer to Section **3.2.3** of the [reference book](https://www.amazon.com
 
 
 The CIR model suffers from similar issues to the Vasicek model apart from negative rates. Extreme movements influence real-life financial data to observe distributions with fatter tails than the normal distribution, implying models such as the CIR model underestimate risk. The **Stable CIR** model will address this issue by basing the movement term on a [Levy alpha-stable distribution](https://en.wikipedia.org/wiki/Stable_distribution) instead of the normal distribution.
+
+**Exponential Vasicek (EV):**
+
+The EV model assumes the short rate follows a [lognormal distribution](https://en.wikipedia.org/wiki/Log-normal_distribution) instead of a normal distribution as the Vasicek model does. Suppose that $\log(r(t))$ follows an Ornstein-Uhlenbeck process $y(t)$. By definition, the Vasicek SDE describes $y(t)$ as follows:
+
+$$dy(t) = (\theta - \kappa y(t))dt + \sigma dW(t)$$
+
+By [Ito's Lemma](https://en.wikipedia.org/wiki/It%C3%B4%27s_lemma), the SDE for $r(t)$ is the following:
+
+$$dr(t) = r(t)\left(\theta + \frac{\sigma ^ 2}{2} - \kappa\log(r(t))\right)dt + \sigma r(t)dW(t)$$
+
+The explicit definition of the expectation and variance of $r(t)$ under this model will be left to page 71 of the [reference book](https://www.amazon.com/Interest-Rate-Models-Practice-Inflation/dp/3540221492); the analog under filtration $\mathcal{F}(s)$ as $t\to\infty$ will be given instead. This is essentially gives the expected value and variance for long-term predictions.
+
+$$\lim_{t\to\infty}\mathbb{E}(r(t) | \mathcal{F}(s)) = \exp\left(\frac{\theta}{\kappa} + \frac{\sigma ^ 2}{4\kappa}\right)$$
+
+$$\lim_{t\to\infty}\mathbb{Var}(r(t) | \mathcal{F}(s)) = \exp\left(\frac{2\theta}{\kappa} + \frac{\sigma ^ 2}{2\kappa}\right)\left[\exp\left(\frac{\sigma ^ 2}{2\kappa} - 1\right)\right]$$
+
+There are no explicit formulas for pure-discount bonds; they can be solved numerically instead.
+
+The EV model suffers from an infinite expected value of the money-market account regardless of maturity as $r(t)$ is assumed to be lognormal. This is an additional realism issue for the Vasicek model family.
+
+
+**Black-Karasinski (BK)**
+
+The **BK** model is an extension of the **EV** model where the mean $\theta$ is a deterministic not-necessarily constant function. Thus, the short rate is assumed to follow a lognormal distribution, and its SDE is given by the following:
+
+$$dr(t) = r(t)\left(\theta(t) + \frac{\sigma ^ 2}{2} - \kappa\log(r(t))\right)dt + \sigma r(t)dW(t)$$
+
+No analytic formulas for discount bonds or option bonds exist, similar to the **EV** model. These may be simulated with a [trinomial tree](https://en.wikipedia.org/wiki/Trinomial_tree).
 
 ### Modern Models
 
