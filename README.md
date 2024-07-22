@@ -1,6 +1,6 @@
 # Interest Rate Forecasting
 
-Implementation of common and state-of-the-art interest rate models in C++. This project aims to act as an implementation and mathematical reference for interest rate models that build upon the basics (Vasicek, CIR, etc.) via more complex dynamics.
+Implementation of common interest rate models and (a few of) their extensions in C++. This project aims to act as an implementation and mathematical reference for interest rate models that build upon the basics (Vasicek, CIR, etc.) via more complex dynamics.
 
 ## Files
 
@@ -202,9 +202,7 @@ Write later
 
 ## TODO:
 
-- Black-Karasinksi, CIR++, Extended Exponential Vasicek because I can manipulate the cap volatility curves
-- Read new papers (LIBOR)
-- Implement new models
+- Implement Hull-White then G2++
 - Write technical README
 - Write intro and conclusion README
 - Share
