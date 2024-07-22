@@ -10,7 +10,7 @@ The [src](https://github.com/colalb1/Interest-Rate-Forecasting/tree/main/src) fo
 
 [*General-CIR.hpp*](https://github.com/colalb1/Interest-Rate-Forecasting/blob/main/src/General-CIR.cpp) contains the Stable CIR and $\alpha$-CIR implementations.
 
-[*BK-CIRpp-EEVas.cpp*](https://github.com/colalb1/Interest-Rate-Forecasting/blob/main/src/BK-CIRpp-EEVas.cpp) contains the Black-Karasinski implementation.
+[*BK.cpp*](https://github.com/colalb1/Interest-Rate-Forecasting/blob/main/src/BK.cpp) contains the Black-Karasinski implementation.
 
 ## Models
 
