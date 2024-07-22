@@ -119,7 +119,7 @@ class StableCIR: private GeneralModelAlpha {
                                      GeneralModelAlpha(r_0_con, theta_con, kappa_con, sigma_con) {}
         
         // Create the alpha-stable path
-        std::vector<double> simulated_value(long int num_time_steps, double T) {
+        std::vector<double> simulated_value(const long int& num_time_steps, const double& T) {
             double d_t = T / num_time_steps;
 
             std::vector<double> rates(num_time_steps, 0);
@@ -143,7 +143,7 @@ class StableCIR: private GeneralModelAlpha {
 class AlphaCIR: private GeneralModelAlpha {
     private:
         // first is an indicator for first iteration
-        long double d_calc(const double alpha, const double eta, bool first = false) {
+        long double d_calc(const double& alpha, const double& eta, bool first = false) {
             if (first && alpha == 2) {
                 return 2 * eta;
             }
@@ -174,7 +174,7 @@ class AlphaCIR: private GeneralModelAlpha {
                                                                   etas_con) {}
         
         // Create the alpha-stable path
-        std::vector<double> simulated_value(long int num_time_steps, double T) {
+        std::vector<double> simulated_value(const long int& num_time_steps, const double& T) {
             check_reverse_sorted(alphas);
 
             auto d_t = T / num_time_steps;

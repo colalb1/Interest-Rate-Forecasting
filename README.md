@@ -210,6 +210,6 @@ Write later
 - Share
 
 ## Side Note
-The descriptions came out much longer than I intended, but I figured I would make it detailed since my only other life responsibility while completing the bulk of this project was playing Elden Ring. At the time of this writing, I have a level 200+ Dex build using the [Backhand Blade](https://eldenring.wiki.fextralife.com/Backhand+Blade). I am tearing through the DLC as we speak (I write). 
+The descriptions came out much longer than I intended, but I figured I would make it detailed since my only other life responsibility while completing the bulk of this project was playing Elden Ring. At the time of this writing, I have a level 200+ Dex build using the [Backhand Blade](https://eldenring.wiki.fextralife.com/Backhand+Blade). Edit: I had to change back to my heavy affinity [Greatsword](https://eldenring.wiki.fextralife.com/Greatsword) build for the Consort Radahn challenge; it was quite difficult.
 
 If you are interested in more of the project details or my Elden Ring build, please contact me via [LinkedIn](https://www.linkedin.com/in/colin-alberts/).

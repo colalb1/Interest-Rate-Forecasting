@@ -28,7 +28,7 @@ class BlackKarasinski {
         double r_0, kappa, sigma;
 
         // Uncomment based on desired theta model
-        double get_theta(const double time, const double r_init) {
+        double get_theta(const double& time, const double& r_init) {
             // return r_init; // Constant
             return r_init + 0.001 * time; // Linear with time
             // return r_init * exp(0.001 * time); // Exponential
@@ -41,7 +41,7 @@ class BlackKarasinski {
             sigma = sigma_con;
         }
 
-        std::vector<double> simulated_value(double num_time_steps, double T) {
+        std::vector<double> simulated_value(const double& num_time_steps, const double& T) {
             auto d_t = T / num_time_steps;
 
             std::vector<double> rates(num_time_steps, 0);
