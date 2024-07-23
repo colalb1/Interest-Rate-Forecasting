@@ -207,7 +207,6 @@ class AlphaCIR: private GeneralModelAlpha {
 
 
 int main() {
-
     // StableCIR stable_testing_class(1, 0, 0.05, 0.1, 0.2, 0.02);
     // std::vector<double> stb_temp = stable_testing_class.simulated_value(10000, 1);
     // std::cout << "Stable CIR simulated rate: " << stb_temp[stb_temp.size() - 1] << std::endl;
