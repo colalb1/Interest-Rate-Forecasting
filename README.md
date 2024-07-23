@@ -16,6 +16,8 @@ The [src](https://github.com/colalb1/Interest-Rate-Forecasting/tree/main/src) fo
 
 If you are unfamiliar with the classic interest rate models, I recommend reading [this](https://www.amazon.com/Interest-Rate-Models-Practice-Inflation/dp/3540221492) book; this text was used for mathematical reference of the classic models. A basic description of the classic models is also given below. If you are familiar with them, skip to the **Modern Models** subsection.
 
+The [Euler-Maruyama method](https://en.wikipedia.org/wiki/Euler%E2%80%93Maruyama_method) was used for all numerical integration.
+
 ### Classic Models
 **Vasicek:**
 
