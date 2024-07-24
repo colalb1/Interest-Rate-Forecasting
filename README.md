@@ -113,6 +113,25 @@ $$dr(t) = r(t)\left(\theta(t) + \frac{\sigma ^ 2}{2} - \kappa\log(r(t))\right)dt
 
 No analytic formulas for discount bonds or option bonds exist, similar to the **EV** model. These may be simulated with a [trinomial tree](https://en.wikipedia.org/wiki/Trinomial_tree).
 
+**One-Factor Hull-White (HW1)**
+
+The HW1 model is an extension of the Vasicek model as it allows the long-term mean $\theta$ and volatility $\sigma$ to vary with time. This allows for more precise calibration of the current term structure and can accomodate various [yield curve](https://www.investopedia.com/terms/y/yieldcurve.asp) shapes, adding a layer of realism.
+
+This model assumes $r(t)$ follows a normal distribution and its SDE follows as such:
+
+$$dr(t) = (\theta(t) - \kappa r(t))dt + \sigma(t)dW(t)$$
+
+Although more complex than the Vasicek model, HW1 may still be too simple to capture the intricacies of the entire yield curve given interest rate movements normally depend on multiple sources of risk (multiple possibly-correlated Brownian motions). Extensions of the HW1 model, such as the Two-Factor Hull-White model or Multi-Factor Hull White models were developed to address this very issue. The following section will detail the Two-Factor Hull-White model. 
+
+**Two-Factor Hull-White (HW2)**
+
+As mentioned in the previous section, the HW2 model extends HW1 by adding a second risk (stochastic factor, Brownian motion in this case) to provide additional flexibility to the term structure. The SDEs that define this model are the following:
+
+$$dr(t) = (\theta(t) - \kappa_1r(t) + x(t))dt + \sigma_1(t)dW_1(t)$$
+$$dx(t) = -\kappa_2x(t)dt + \sigma_2(t)dW_2(t)$$
+
+DEFINE THE TERMS AND EXPLAIN WHAT IS GOING ON
+
 ### Modern Models
 
 The mathematics of the Stable CIR and $\alpha$-CIR models are derived primarily from [this](https://arxiv.org/abs/2402.07503) paper. 

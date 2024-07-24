@@ -137,9 +137,9 @@ int main() {
     // std::cout << "Hull-White simulated rate: " << hw_temp[hw_temp.size() - 1] << std::endl;
 
 
-    HullWhiteTwoFactor hw2_testing_class(0.08, {0.03, 0.02, 0.025}, {0.2, 0.99}, {{0.65, 0.6, 0.7}, {0.01, 0.015, 0.02}}, 0.5);
-    std::vector<double> hw2_temp = hw2_testing_class.simulated_value(10000, 1);
-    std::cout << "Two-Factor Hull-White simulated rate: " << hw2_temp[hw2_temp.size() - 1] << std::endl;
+    // HullWhiteTwoFactor hw2_testing_class(0.08, {0.03, 0.02, 0.025}, {0.2, 0.99}, {{0.65, 0.6, 0.7}, {0.01, 0.015, 0.02}}, 0.5);
+    // std::vector<double> hw2_temp = hw2_testing_class.simulated_value(10000, 1);
+    // std::cout << "Two-Factor Hull-White simulated rate: " << hw2_temp[hw2_temp.size() - 1] << std::endl;
 
     return 0;
 }
