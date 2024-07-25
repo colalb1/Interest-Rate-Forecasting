@@ -61,16 +61,18 @@ class HullWhite: private General {
         std::vector<double> simulated_value(const int& num_time_steps, const double& T) {
             check_same_length({theta, sigma});
 
-            auto d_t = T / num_time_steps;
+            double d_t = T / num_time_steps;
 
             std::vector<double> rates(num_time_steps, 0);
             rates[0] = r_0;
 
-            for (int i = 1; i < num_time_steps; ++i) {
-                int parameter_index = get_parameter_index(i, num_time_steps, theta.size());
-                auto theta_curr = theta[parameter_index], sigma_curr = sigma[parameter_index];
+            for (int i = 1; i < num_time_steps; i += BLOCK_SIZE) {
+                for (int j = i; j < std::min<int>(i + BLOCK_SIZE, num_time_steps); ++j) {
+                    int parameter_index = get_parameter_index(j, num_time_steps, theta.size());
+                    double theta_curr = theta[parameter_index], sigma_curr = sigma[parameter_index];
 
-                rates[i] = rates[i - 1] + (theta_curr - kappa * rates[i - 1]) * d_t + sigma_curr * sqrt(d_t) * dist(gen);
+                    rates[j] = rates[j - 1] + (theta_curr - kappa * rates[j - 1]) * d_t + sigma_curr * sqrt(d_t) * dist(gen);
+                }
             }
 
             return rates;
@@ -113,17 +115,19 @@ class HullWhiteTwoFactor: private General {
             std::vector<double> rates(num_time_steps, 0);
             double x_rates = 0, y_rates = 0;
             rates[0] = r_0;
-            
-            for (int i = 0; i < num_time_steps; ++i) {
-                int parameter_index = get_parameter_index(i, num_time_steps, theta.size());
-                auto W_1 = sqrt(d_t) * dist(gen), W_2 = rho * W_1 + sqrt(1 - pow(rho, 2)) * sqrt(d_t) * dist(gen);
 
-                auto theta_curr = theta[parameter_index], sigma_1_curr = sigma_1[parameter_index], sigma_2_curr = sigma_2[parameter_index];
+            for (int i = 0; i < num_time_steps; i += BLOCK_SIZE) {
+                for (int j = i; j < std::min<int>(i + BLOCK_SIZE, num_time_steps); ++j) {
+                    int parameter_index = get_parameter_index(j, num_time_steps, theta.size());
+                    auto W_1 = sqrt(d_t) * dist(gen), W_2 = rho * W_1 + sqrt(1 - pow(rho, 2)) * sqrt(d_t) * dist(gen);
 
-                x_rates += -kappa_1 * x_rates * d_t + sigma_1_curr * sqrt(d_t) * W_1;
-                y_rates += -kappa_2 * y_rates * d_t + sigma_2_curr * sqrt(d_t) * W_2;
+                    auto theta_curr = theta[parameter_index], sigma_1_curr = sigma_1[parameter_index], sigma_2_curr = sigma_2[parameter_index];
 
-                rates[i] = std::max(r_0 + x_rates + y_rates, 0.0);
+                    x_rates += -kappa_1 * x_rates * d_t + sigma_1_curr * sqrt(d_t) * W_1;
+                    y_rates += -kappa_2 * y_rates * d_t + sigma_2_curr * sqrt(d_t) * W_2;
+
+                    rates[j] = std::max(r_0 + x_rates + y_rates, 0.0);
+                }
             }
 
             return rates;

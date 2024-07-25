@@ -42,16 +42,18 @@ class BlackKarasinski {
         }
 
         std::vector<double> simulated_value(const double& num_time_steps, const double& T) {
-            auto d_t = T / num_time_steps;
+            double d_t = T / num_time_steps;
 
             std::vector<double> rates(num_time_steps, 0);
             rates[0] = r_0;
 
-            for (int i = 1; i < num_time_steps; ++i) {
-                auto drift = rates[i - 1] * (get_theta(i * d_t, r_0) + std::pow(sigma, 2) / 2 - kappa * std::log(rates[i - 1]));
-                auto diffusion = sigma * rates[i - 1] * sqrt(d_t) * dist(gen);
+            for (int i = 1; i < num_time_steps; i += BLOCK_SIZE) {
+                for (int j = i; j < std::min<int>(i + BLOCK_SIZE, num_time_steps); ++j) {
+                    double drift = rates[j - 1] * (get_theta(j * d_t, r_0) + std::pow(sigma, 2) / 2 - kappa * std::log(rates[j - 1]));
+                    double diffusion = sigma * rates[j - 1] * sqrt(d_t) * dist(gen);
 
-                rates[i] = rates[i - 1] + drift * d_t + diffusion;
+                    rates[j] = rates[j - 1] + drift * d_t + diffusion;
+                }
             }
 
             return rates;
