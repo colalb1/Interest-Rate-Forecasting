@@ -27,7 +27,7 @@ The Vasicek model states that the instantaneous interest rate is derived from th
 
 $$dr(t) = \kappa(\theta - r(t))dt + \sigma dW(t)$$
 
-where $r(0) = r_0$. This is an Ornstein-Uhlenbeck process with constant coefficients under a risk-neutral measure, meaning this describes a [Gauss-Markov](https://en.wikipedia.org/wiki/Gauss%E2%80%93Markov_process) process (stationary process based on the normal distribution) of a variable that tends to revert to some mean ($\theta$) over time given assets follow [risk-neutral pricing](https://en.wikipedia.org/wiki/Risk-neutral_measure) principles. The variables are assumed to be constant; this is unrealistic, but this is a basic model. The variables are defined as follows:
+where $r(0) = r_0$. This is an Ornstein-Uhlenbeck process with constant coefficients under a risk-neutral measure, meaning this describes a [Gauss-Markov](https://en.wikipedia.org/wiki/Gauss%E2%80%93Markov_process) process (stationary process based on the normal distribution) of a variable that tends to revert to some mean $\theta$ over time given assets follow [risk-neutral pricing](https://en.wikipedia.org/wiki/Risk-neutral_measure) principles. The variables are assumed to be constant; this is unrealistic, but this is a basic model. The variables are defined as follows:
 
 * $\kappa > 0$ is the reversion rate (how fast the process reverts to the mean)
 * $\theta$ is the long-term mean to which the process reverts
@@ -43,7 +43,7 @@ $$\mathbb{E}(r(t) | \mathcal{F}(s)) = r(s)e^{-\kappa(t - s)} + \theta(1 - e^{-\k
 
 $$Var(r(t) | \mathcal{F}(s)) = \frac{\sigma ^ 2}{2\kappa}\left(1 - e^{-2\kappa(t - s)}\right)$$
 
-Given the simplicity of the model, one may derive the price of a pure-discount bond given current time $t$, expiration date $T$, and time to expiry $\tau$:
+Given the simplicity of the model, one may derive the price of a pure-discount bond given current time $t$, expiration date $T$, and time to expiry $\tau = T - t$:
 
 $$P(t, T) = \exp\left[A(t, T) - B(t, T)r(t)\right]$$
 
@@ -53,13 +53,13 @@ $$B(t, T) = \frac{1}{k}\left(1 - e^{-\kappa\tau}\right)$$
 
 $$A(t, T) = \left(\theta - \frac{\sigma ^ 2}{2\kappa ^ 2}\right)(B(t, T) - \tau) - \frac{\sigma ^ 2}{4k}B(t, T)^2$$
 
-I will defer further mathematical explanation to Section **3.2.1** of [the reference book](https://www.amazon.com/Interest-Rate-Models-Practice-Inflation/dp/3540221492) for brevity.
+I will defer further mathematical explanation to Section 3.2.1 of [the reference book](https://www.amazon.com/Interest-Rate-Models-Practice-Inflation/dp/3540221492) for brevity.
 
-A few main issues of the Vasicek model are that it allows for negative interest rates due to the unconstrained movement of the $\sigma dW(t)$ term, unrealistic constant volatility/reversion speed, and the assumption that the process is based on the normal distribution. The **CIR** model addresses the negative interest rates.
+A few issues of the Vasicek model are that it allows for negative interest rates due to the unconstrained movement of the $\sigma dW(t)$ term, unrealistic constant volatility/reversion speed, and the assumption that the process is based on the normal distribution. The CIR model addresses the negative interest rate issue.
 
 **Cox-Ingress-Ross (CIR):**
 
-The CIR model addresses the issue of negative interest rates in the Vasicek model by adding a $\sqrt{r(t)}$ term to the random fluctuation term. Thus, the process is modeled by the following stochastic differential equation:
+The CIR model addresses the issue of negative interest rates in the Vasicek model by multiplying the random fluctuation term by $\sqrt{r(t)}$. Thus, the process is modeled by the following stochastic differential equation:
 
 $$dr(t) = \kappa(\theta - r(t))dt + \sigma \sqrt{r(t)} dW(t)$$
 
@@ -81,10 +81,10 @@ $$B(t, T) = \frac{2(e^{h\tau} - 1)}{2h + (k + h)(e^{h\tau} - 1)}$$
 
 $$h = \sqrt{\kappa ^ 2 + 2\sigma ^ 2}$$
 
-I will defer to Section **3.2.3** of the [reference book](https://www.amazon.com/Interest-Rate-Models-Practice-Inflation/dp/3540221492) for further explanation.
+I will defer to Section 3.2.3 of the [reference book](https://www.amazon.com/Interest-Rate-Models-Practice-Inflation/dp/3540221492) for further explanation.
 
 
-The CIR model suffers from similar issues to the Vasicek model apart from negative rates. Extreme movements influence real-life financial data to observe distributions with fatter tails than the normal distribution, implying models such as the CIR model underestimate risk. The **Stable CIR** model will address this issue by basing the movement term on a [Levy alpha-stable distribution](https://en.wikipedia.org/wiki/Stable_distribution) instead of the normal distribution.
+The CIR model suffers from similar issues to the Vasicek model apart from negative rates. Extreme movements influence real-life financial data to observe distributions with fatter tails than the normal distribution, implying models such as the CIR model underestimate risk. The Stable CIR model will address this issue by basing the movement term on a [Levy alpha-stable distribution](https://en.wikipedia.org/wiki/Stable_distribution) instead of the normal distribution.
 
 **Exponential Vasicek (EV):**
 
@@ -96,7 +96,7 @@ By [Ito's Lemma](https://en.wikipedia.org/wiki/It%C3%B4%27s_lemma), the SDE for 
 
 $$dr(t) = r(t)\left(\theta + \frac{\sigma ^ 2}{2} - \kappa\log(r(t))\right)dt + \sigma r(t)dW(t)$$
 
-The explicit definition of the expectation and variance of $r(t)$ under this model will be left to page 71 of the [reference book](https://www.amazon.com/Interest-Rate-Models-Practice-Inflation/dp/3540221492); the analog under filtration $\mathcal{F}(s)$ as $t\to\infty$ will be given instead. This is essentially gives the expected value and variance for long-term predictions.
+The explicit definition of the expectation and variance of $r(t)$ under this model will be left to page 71 of the [reference book](https://www.amazon.com/Interest-Rate-Models-Practice-Inflation/dp/3540221492); the analog under filtration $\mathcal{F}(s)$ as $t\to\infty$ will be given instead. This essentially gives the expected value and variance for long-term predictions.
 
 $$\lim_{t\to\infty}\mathbb{E}(r(t) | \mathcal{F}(s)) = \exp\left(\frac{\theta}{\kappa} + \frac{\sigma ^ 2}{4\kappa}\right)$$
 
@@ -104,35 +104,40 @@ $$\lim_{t\to\infty}\mathbb{Var}(r(t) | \mathcal{F}(s)) = \exp\left(\frac{2\theta
 
 There are no explicit formulas for pure-discount bonds; they can be solved numerically instead.
 
-The EV model suffers from an infinite expected value of the money-market account regardless of maturity as $r(t)$ is assumed to be lognormal. This is an additional realism issue for the Vasicek model family.
+The EV model suffers from an infinite expected value of the money-market account regardless of maturity as $r(t)$ is assumed to be lognormal. This is a realism issue for all extensions based on the EV model.
 
 
 **Black-Karasinski (BK)**
 
-The **BK** model is an extension of the **EV** model where the mean $\theta$ is a deterministic not-necessarily constant function. Thus, the short rate is assumed to follow a lognormal distribution, and its SDE is given by the following:
+The BK model is an extension of the EV model where the mean $\theta$ is a function that depends on time. Thus, the short rate is assumed to follow a lognormal distribution, and its SDE is given by the following:
 
 $$dr(t) = r(t)\left(\theta(t) + \frac{\sigma ^ 2}{2} - \kappa\log(r(t))\right)dt + \sigma r(t)dW(t)$$
 
-No analytic formulas for discount bonds or option bonds exist, similar to the **EV** model. These may be simulated with a [trinomial tree](https://en.wikipedia.org/wiki/Trinomial_tree).
+No analytic formulas for discount bonds or option bonds exist, similar to the EV model, although they may be simulated with a [trinomial tree](https://en.wikipedia.org/wiki/Trinomial_tree).
+
+Similar to the EV model, the expected money-market account value is infinite regardless of maturity since it is assumed that $r(t)$ follows a lognormal distribution.
 
 **One-Factor Hull-White (HW1)**
 
 The HW1 model is an extension of the Vasicek model as it allows the long-term mean $\theta$ and volatility $\sigma$ to vary with time. This allows for more precise calibration of the current term structure and can accomodate various [yield curve](https://www.investopedia.com/terms/y/yieldcurve.asp) shapes, adding a layer of realism.
 
-This model assumes $r(t)$ follows a normal distribution and its SDE follows as such:
+This model assumes $r(t)$ follows a normal distribution, and its SDE follows as such:
 
 $$dr(t) = (\theta(t) - \kappa r(t))dt + \sigma(t)dW(t)$$
 
-Although more complex than the Vasicek model, HW1 may still be too simple to capture the intricacies of the entire yield curve given interest rate movements normally depend on multiple sources of risk (multiple possibly-correlated Brownian motions). Extensions of the HW1 model, such as the Two-Factor Hull-White model or Multi-Factor Hull White models were developed to address this very issue. The following section will detail the Two-Factor Hull-White model. 
+Although more complex than the Vasicek model, HW1 is still too simple to capture the intricacies of the entire yield curve given interest rate movements typically depend on multiple sources of risk (multiple Brownian motions). Extensions of the HW1 model, such as the Two-Factor Hull-White model or Multi-Factor Hull-White models were developed to address this issue. The following section will detail the Two-Factor Hull-White model. 
 
 **Two-Factor Hull-White (HW2)**
 
-As mentioned in the previous section, the HW2 model extends HW1 by adding a second risk (stochastic factor, Brownian motion in this case) to provide additional flexibility to the term structure. The SDEs that define this model are the following:
+As mentioned in the previous section, HW2 extends HW1 by adding a second risk (stochastic factor, Brownian motion in this case) to provide additional flexibility to the term structure. The SDEs that define this model are the following:
 
 $$dr(t) = (\theta(t) - \kappa_1r(t) + x(t))dt + \sigma_1(t)dW_1(t)$$
 $$dx(t) = -\kappa_2x(t)dt + \sigma_2(t)dW_2(t)$$
+$$dW_1dW_2 = \rho dt$$
 
-DEFINE THE TERMS AND EXPLAIN WHAT IS GOING ON
+$r(t)$ is the short rate and $x(t)$ is an additional stochastic process that influences the $r(t)$ dynamics. Similar to the unindexed definitions, $\kappa_1, \kappa_2$ represent the mean reversion rates of their respective equations while $\sigma_1, \sigma_2$ are defined similarly for volatility. $\rho$ is the correlation coefficient between the Brownian motions. The correlation term allows for a more thorough assessment of joint risk and improves hedging strategies via completeness of information.
+
+HW2 is equivalent to the [G2++ model](https://www.cequra.uni-muenchen.de/download/cequra_wp21.pdf); G2++ is typically used in practice as its implementation is simpler than HW2. I will leave further mathematical explanation to section 4.2 of the [reference book](https://www.amazon.com/Interest-Rate-Models-Practice-Inflation/dp/3540221492).
 
 ### Modern Models
 
@@ -140,9 +145,9 @@ The mathematics of the Stable CIR and $\alpha$-CIR models are derived primarily 
 
 **Stable CIR:**
 
-As mentioned in the **CIR** subsection, the Stable CIR model aims to enhance the classic CIR model by basing the motion on fatter-tailed distributions as real data tends to show larger aberrations than that of idealized models using the normal distribution via Brownian motion. [This paper](https://arxiv.org/abs/1301.3243) gives more mathematical background to WHY we want a fatter-tailed distribution; I encourage you to read this for more background, but I will be omitting the explanation and will move on to the HOW of the problem.
+As mentioned in the CIR subsection, the Stable CIR model aims to enhance the classic CIR model by basing the motion on fatter-tailed distributions as real data tends to show larger aberrations than that of idealized models using the normal distribution via Brownian motion. [This paper](https://arxiv.org/abs/1301.3243) gives more mathematical background to WHY we want a fatter-tailed distribution; I encourage you to read this for more background, but I will be omitting the explanation and will move on to the HOW of the problem.
 
-First, I must define the Levy alpha-stable distribution class. Four parameters define said class of distributions: the stability parameter $\alpha\in(0, 2]$, skewness parameter $\beta\in[-1, 1]$, scale parameter $\sigma\in(0, \infty)$, and the location parameter $\mu\in(-\infty, \infty)$. Put simply, $\mu$ is the mean/center of the distribution, $\sigma$ is the statistical dispersion factor (variance is a common example), $\beta$ measures asymmetry ($\beta = 0$ implies symmetry while $\beta = -1, 1$ imply left and right skewness, respectively), and $\alpha$ measures tail heaviness (lower $\alpha\implies$ heavier tails). $\alpha$ is the main parameter of interest. The following facts about the $\alpha$-stable distribution are relevant to this context.
+First, I must define the Levy alpha-stable distribution class. Four parameters define said class of distributions: the stability parameter $\alpha\in(0, 2]$, skewness parameter $\beta\in[-1, 1]$, scale parameter $\sigma\in(0, \infty)$, and the location parameter $\mu\in(-\infty, \infty)$. Put simply, $\mu$ is the mean/center of the distribution, $\sigma$ is the statistical dispersion factor (variance is a common example), $\beta$ measures asymmetry ($\beta = 0$ implies symmetry while $\beta = -1, 1$ imply left and right skewness, respectively), and $\alpha$ measures tail heaviness (lower $\alpha\implies$ heavier tails). $\alpha$ is the parameter of main interest. The following facts about the $\alpha$-stable distribution are relevant to this context.
 
 * Distributions with $\alpha = 2$ are normal
 * Distributions with $\alpha = 1$ are [Cauchy](https://en.wikipedia.org/wiki/Cauchy_distribution)
@@ -194,11 +199,11 @@ The uniform and exponential distribution generators in C++ simulated these rando
 
 Most of the legwork is done defining the distribution; the model is straightforward in comparison. The stochastic differential equation is defined as follows:
 
-$$dr(t) = (\kappa r(t-) + \theta)dt + (r(t-)\sigma)^{1 / \alpha} dZ^{\alpha}(t)$$
+$$dr(t) = (\kappa r(t-) + \theta)dt + (\sigma r(t-))^{1 / \alpha} dZ^{\alpha}(t)$$
 
 where $Z^{\alpha}(t)$ is an alpha-stable process and $r(t-)$ is the rate at the previous timestep.
 
-This is essentially the same as the CIR model except the random walk is based on an alpha-stable distribution instead of a normal distribution. The $\alpha$-CIR model will generalize this by adding additional $(r(t-)\sigma)^{1 / \alpha} dZ^{\alpha}(t)$ terms to more accurately reflect real-life market conditions via multiple independent rate-dependent risks.
+This is essentially the same as the CIR model except the random walk is based on an alpha-stable distribution instead of a normal distribution. The $\alpha$-CIR model will generalize this by adding additional $(\sigma r(t-))^{1 / \alpha} dZ^{\alpha}(t)$ terms to more accurately reflect real-life market conditions via multiple independent rate-dependent risks.
 
 **$\alpha$-CIR**
 
@@ -212,6 +217,8 @@ The summation term represents multiple independent sources of stochastic noise t
 
 In short, one may control the $\alpha_i$ and $\sigma_i$ terms for each risk to represent market conditions accurately at a given interest rate. If you are interested in more of the statistical-theoretic nuance (classification of generating equations, canonical representation, moments of the rates, etc.) of this model, read Section 3 of [the paper](https://arxiv.org/abs/2402.07503).
 
+This model may be improved by removing the assumption of independence between risks as real-life risks are seldom independent.
+
 ## Programmatic Optimizations
 
 **Loop-blocking**
@@ -221,16 +228,15 @@ Also known as loop-tiling, this improves computation speed by breaking down larg
 
 ## Conclusion
 
-Write later
+Other multi-factor models: Longstaff-Schwartz, Chen. Heath-Jarrow-Merton framework and LIBOR models
 
 ## TODO:
 
-- Implement Hull-White then G2++
 - Write technical README
 - Write intro and conclusion README
 - Share
 
 ## Side Note
-The descriptions came out much longer than I intended, but I figured I would make it detailed since my only other life responsibility while completing the bulk of this project was playing Elden Ring. At the time of this writing, I have a level 200+ Dex build using the [Backhand Blade](https://eldenring.wiki.fextralife.com/Backhand+Blade). Edit: I had to change back to my heavy affinity [Greatsword](https://eldenring.wiki.fextralife.com/Greatsword) build for the Consort Radahn challenge; it was quite difficult.
+The descriptions came out much longer than I intended, but I figured I would make it detailed since my only other life responsibility while completing the bulk of this project was playing Elden Ring. At the time of this writing, I have a level 200+ Dex build using the [Backhand Blade](https://eldenring.wiki.fextralife.com/Backhand+Blade). Edit: I had to change back to my heavy affinity [Greatsword](https://eldenring.wiki.fextralife.com/Greatsword) build for Consort Radahn; it was quite difficult.
 
 If you are interested in more of the project details or my Elden Ring build, please contact me via [LinkedIn](https://www.linkedin.com/in/colin-alberts/).
