@@ -84,7 +84,7 @@ $$h = \sqrt{\kappa ^ 2 + 2\sigma ^ 2}$$
 I will defer to Section 3.2.3 of the [reference book](https://www.amazon.com/Interest-Rate-Models-Practice-Inflation/dp/3540221492) for further explanation.
 
 
-The CIR model suffers from similar issues to the Vasicek model apart from negative rates. Extreme movements influence real-life financial data to observe distributions with fatter tails than the normal distribution, implying models such as the CIR model underestimate risk. The Stable CIR model will address this issue by basing the movement term on a [Levy alpha-stable distribution](https://en.wikipedia.org/wiki/Stable_distribution) instead of the normal distribution.
+The CIR model suffers from issues similar to those of the Vasicek model, apart from negative rates. Extreme movements influence real-life financial data to observe distributions with fatter tails than the normal distribution, implying models such as the CIR model underestimate risk. The Stable CIR model will address this issue by basing the movement term on a [Levy alpha-stable distribution](https://en.wikipedia.org/wiki/Stable_distribution) instead of the normal distribution.
 
 **Exponential Vasicek (EV):**
 
@@ -119,7 +119,7 @@ Similar to the EV model, the expected money-market account value is infinite reg
 
 **One-Factor Hull-White (HW1)**
 
-The HW1 model is an extension of the Vasicek model as it allows the long-term mean $\theta$ and volatility $\sigma$ to vary with time. This allows for more precise calibration of the current term structure and can accomodate various [yield curve](https://www.investopedia.com/terms/y/yieldcurve.asp) shapes, adding a layer of realism.
+The HW1 model is an extension of the Vasicek model as it allows the long-term mean $\theta$ and volatility $\sigma$ to vary with time. This allows for more precise calibration of the current term structure and can accommodate various [yield curve](https://www.investopedia.com/terms/y/yieldcurve.asp) shapes, adding a layer of realism.
 
 This model assumes $r(t)$ follows a normal distribution, and its SDE follows as such:
 
@@ -228,7 +228,7 @@ Also known as loop-tiling, this improves computation speed by breaking down larg
 
 ## Takeaways
 
-The goal of this project was to refresh and expand my knowledge on interest rate models, create reference material for those interested in the basics of modeling interest rate SDEs, and further improve my C++ knowledge/OOP organization.
+The goal of this project was to refresh and expand my knowledge of interest rate models, create reference material for those interested in the basics of modeling interest rate SDEs, and further improve my C++ knowledge/OOP organization.
 
 Although this repo mainly contains well-studied interest rate SDEs, this will act as the basis for more nuanced implementations moving forward. I will come back to this project later to add additional modern academic techniques; admittedly, I did not get to as much of this content as I would have liked. Plans for the future of this (or a tangential) project include focusing on extensions of multi-factor models such as the [Longstaff-Schwartz](https://www.soa.org/493589/globalassets/assets/library/newsletters/risks-and-rewards/2002/october/rar-2002-iss40-smith.pdf), [Chen](https://en.wikipedia.org/wiki/Chen_model), [Heath-Jarrow-Merton family](https://en.wikipedia.org/wiki/Heath%E2%80%93Jarrow%E2%80%93Morton_framework) (HJM), and [LIBOR](https://en.wikipedia.org/wiki/LIBOR_market_model) models (a commonly used subset of the HJM framework).
 
