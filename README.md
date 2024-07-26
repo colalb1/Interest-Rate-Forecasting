@@ -226,15 +226,14 @@ This model may be improved by removing the assumption of independence between ri
 Also known as loop-tiling, this improves computation speed by breaking down large blocks/loops into smaller blocks/tiles that fit into various levels of cache more efficiently. Smaller blocks of data allow the data to stay in the smaller, faster caches (L1 or L2) and reduce cache misses since there are fewer evictions. This allows for multi-level cache utilization that can be tuned using programs such as [Intel VTune](https://www.intel.com/content/www/us/en/developer/tools/oneapi/vtune-profiler.html). One may adjust the block size constant for optimal efficiency.
 
 
-## Conclusion
+## Takeaways
 
-Other multi-factor models: Longstaff-Schwartz, Chen. Heath-Jarrow-Merton framework and LIBOR models
+The goal of this project was to refresh and expand my knowledge on interest rate models, create reference material for those interested in the basics of modeling interest rate SDEs, and further improve my C++ knowledge/OOP organization.
 
-## TODO:
+Although this repo mainly contains well-studied interest rate SDEs, this will act as the basis for more nuanced implementations moving forward. I will come back to this project later to add additional modern academic techniques; admittedly, I did not get to as much of this content as I would have liked. Plans for the future of this (or a tangential) project include focusing on extensions of multi-factor models such as the [Longstaff-Schwartz](https://www.soa.org/493589/globalassets/assets/library/newsletters/risks-and-rewards/2002/october/rar-2002-iss40-smith.pdf), [Chen](https://en.wikipedia.org/wiki/Chen_model), [Heath-Jarrow-Merton family](https://en.wikipedia.org/wiki/Heath%E2%80%93Jarrow%E2%80%93Morton_framework) (HJM), and [LIBOR](https://en.wikipedia.org/wiki/LIBOR_market_model) models (a commonly used subset of the HJM framework).
 
-- Write technical README
-- Write intro and conclusion README
-- Share
+A significant amount of time was spent reading C++ documentation to ensure the code reached an adequate standard of efficiency and formatting. The standards/guidelines I followed were the [CppCoreGuidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines) and [muOS++](https://micro-os-plus.github.io/develop/sutter-101/). [Effective C++](https://www.amazon.com/Effective-Specific-Improve-Programs-Designs/dp/0321334876) was used supplementally for code design. That being said, there is room for improvement. If you are experienced with C++ and would like to leave some comments or do a code review, please contact me on [LinkedIn](https://www.linkedin.com/in/colin-alberts/).
+
 
 ## Side Note
 The descriptions came out much longer than I intended, but I figured I would make it detailed since my only other life responsibility while completing the bulk of this project was playing Elden Ring. At the time of this writing, I have a level 200+ Dex build using the [Backhand Blade](https://eldenring.wiki.fextralife.com/Backhand+Blade). Edit: I had to change back to my heavy affinity [Greatsword](https://eldenring.wiki.fextralife.com/Greatsword) build for Consort Radahn; it was quite difficult.
